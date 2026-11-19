@@ -15,6 +15,7 @@ export const MARQUES = [
   {
     id: 'rolls-royce',
     name: 'Rolls-Royce',
+    logo: '/logos/rolls-royce.png',
     country: 'England',
     city: 'Goodwood',
     founded: '1904',
@@ -36,6 +37,11 @@ export const MARQUES = [
         src: '/marques/rolls-2.webp',
         alt: 'Coach door and leather trim of a Rolls-Royce',
         caption: 'Coach door, hand-finished hide.',
+      },
+      {
+        src: '/marques/rolls-royce-3.webp',
+        alt: 'A dark blue Rolls-Royce Spectre from the front three-quarter',
+        caption: 'Rolls-Royce Spectre, front three-quarter.',
       },
     ],
     features: [
@@ -80,6 +86,7 @@ export const MARQUES = [
   {
     id: 'bentley',
     name: 'Bentley',
+    logo: '/logos/bentley.png',
     country: 'England',
     city: 'Crewe',
     founded: '1919',
@@ -101,6 +108,11 @@ export const MARQUES = [
         src: '/marques/bentley-2.webp',
         alt: 'A pale blue Bentley Bentayga from the front three-quarter',
         caption: 'Bentley Bentayga EWB.',
+      },
+      {
+        src: '/marques/bentley-3.webp',
+        alt: 'A dark blue Bentley Continental GT from the front three-quarter',
+        caption: 'Continental GT, front three-quarter.',
       },
     ],
     features: [
@@ -145,6 +157,7 @@ export const MARQUES = [
   {
     id: 'aston-martin',
     name: 'Aston Martin',
+    logo: '/logos/aston-martin.png',
     country: 'England',
     city: 'Gaydon',
     founded: '1913',
@@ -166,6 +179,11 @@ export const MARQUES = [
         src: '/marques/aston-2.webp',
         alt: 'A grey Aston Martin Vanquish on a forecourt',
         caption: 'Aston Martin Vanquish, 2024.',
+      },
+      {
+        src: '/marques/aston-martin-3.webp',
+        alt: 'A silver Aston Martin DB12 from the front three-quarter',
+        caption: 'Aston Martin DB12, front three-quarter.',
       },
     ],
     features: [
@@ -210,6 +228,7 @@ export const MARQUES = [
   {
     id: 'porsche',
     name: 'Porsche',
+    logo: '/logos/porsche.png',
     country: 'Germany',
     city: 'Stuttgart',
     founded: '1931',
@@ -231,6 +250,11 @@ export const MARQUES = [
         src: '/cars/porsche-taycan.webp',
         alt: 'A pale Porsche Taycan in a studio',
         caption: 'Porsche Taycan.',
+      },
+      {
+        src: '/marques/porsche-3.webp',
+        alt: 'A white Porsche 911 Carrera on a street',
+        caption: 'Porsche 911 Carrera, 992 generation.',
       },
     ],
     features: [
@@ -275,6 +299,7 @@ export const MARQUES = [
   {
     id: 'bmw',
     name: 'BMW',
+    logo: '/logos/bmw.png',
     country: 'Germany',
     city: 'Munich',
     founded: '1916',
@@ -296,6 +321,11 @@ export const MARQUES = [
         src: '/cars/bmw-ix.webp',
         alt: 'A BMW iX electric SUV',
         caption: 'BMW iX.',
+      },
+      {
+        src: '/marques/bmw-3.webp',
+        alt: 'A yellow BMW M5 from the front three-quarter',
+        caption: 'BMW M5, G90 generation.',
       },
     ],
     features: [
@@ -340,6 +370,7 @@ export const MARQUES = [
   {
     id: 'ferrari',
     name: 'Ferrari',
+    logo: '/logos/ferrari.png',
     country: 'Italy',
     city: 'Maranello',
     founded: '1939',
@@ -361,6 +392,11 @@ export const MARQUES = [
         src: '/marques/ferrari-2.webp',
         alt: 'A grey Ferrari Purosangue from the rear three-quarter',
         caption: 'Ferrari Purosangue.',
+      },
+      {
+        src: '/marques/ferrari-3.webp',
+        alt: 'A dark green Ferrari 12Cilindri from the front three-quarter',
+        caption: 'Ferrari 12Cilindri, front three-quarter.',
       },
     ],
     features: [
@@ -405,6 +441,7 @@ export const MARQUES = [
   {
     id: 'lamborghini',
     name: 'Lamborghini',
+    logo: '/logos/lamborghini.png',
     country: 'Italy',
     city: "Sant'Agata Bolognese",
     founded: '1963',
@@ -426,6 +463,11 @@ export const MARQUES = [
         src: '/marques/lambo-2.webp',
         alt: 'A green Lamborghini Urus SE',
         caption: 'Lamborghini Urus SE.',
+      },
+      {
+        src: '/marques/lamborghini-3.webp',
+        alt: 'A white Lamborghini Revuelto from the front three-quarter',
+        caption: 'Lamborghini Revuelto, front three-quarter.',
       },
     ],
     features: [
@@ -470,6 +512,7 @@ export const MARQUES = [
   {
     id: 'pagani',
     name: 'Pagani',
+    logo: '/logos/pagani.png',
     country: 'Italy',
     city: 'San Cesario sul Panaro',
     founded: '1992',
@@ -491,6 +534,11 @@ export const MARQUES = [
         src: '/marques/pagani-2.webp',
         alt: 'A Pagani Huayra BC Roadster',
         caption: 'Pagani Huayra BC Roadster.',
+      },
+      {
+        src: '/marques/pagani-3.webp',
+        alt: 'A blue Pagani Utopia from the side',
+        caption: 'Pagani Utopia, side profile.',
       },
     ],
     features: [
@@ -535,6 +583,7 @@ export const MARQUES = [
   {
     id: 'koenigsegg',
     name: 'Koenigsegg',
+    logo: '/logos/koenigsegg.png',
     country: 'Sweden',
     city: 'Ängelholm',
     founded: '1994',
@@ -556,6 +605,11 @@ export const MARQUES = [
         src: '/marques/koenigsegg-2.webp',
         alt: 'The cabin and door of a green Koenigsegg Gemera',
         caption: 'Gemera door and cabin.',
+      },
+      {
+        src: '/marques/koenigsegg-3.webp',
+        alt: 'A white Koenigsegg Jesko from the front three-quarter',
+        caption: 'Koenigsegg Jesko, front three-quarter.',
       },
     ],
     features: [
@@ -600,6 +654,7 @@ export const MARQUES = [
   {
     id: 'bugatti',
     name: 'Bugatti',
+    logo: '/logos/bugatti.png',
     country: 'France',
     city: 'Molsheim',
     founded: '1909',
@@ -621,6 +676,11 @@ export const MARQUES = [
         src: '/marques/bugatti-2.webp',
         alt: 'A pale blue Bugatti Tourbillon at a show',
         caption: 'Bugatti Tourbillon, 2024.',
+      },
+      {
+        src: '/marques/bugatti-3.webp',
+        alt: 'A pale blue Bugatti Tourbillon from the front three-quarter',
+        caption: 'Bugatti Tourbillon, front three-quarter.',
       },
     ],
     features: [
@@ -665,6 +725,7 @@ export const MARQUES = [
   {
     id: 'mclaren',
     name: 'McLaren',
+    logo: '/logos/mclaren.png',
     country: 'England',
     city: 'Woking',
     founded: '1963',
@@ -686,6 +747,11 @@ export const MARQUES = [
         src: '/marques/mclaren-2.webp',
         alt: 'A white McLaren 750S Spider from the rear',
         caption: 'McLaren 750S Spider.',
+      },
+      {
+        src: '/marques/mclaren-3.webp',
+        alt: 'An orange McLaren 750S from the front three-quarter',
+        caption: 'McLaren 750S, front three-quarter.',
       },
     ],
     features: [
@@ -730,6 +796,7 @@ export const MARQUES = [
   {
     id: 'mercedes-amg',
     name: 'Mercedes-AMG',
+    logo: '/logos/mercedes-amg.png',
     country: 'Germany',
     city: 'Affalterbach',
     founded: '1967',
@@ -751,6 +818,11 @@ export const MARQUES = [
         src: '/marques/amg-2.webp',
         alt: 'A white Mercedes-AMG GT 63 S',
         caption: 'Mercedes-AMG GT 63 S.',
+      },
+      {
+        src: '/marques/mercedes-amg-3.webp',
+        alt: 'A blue Mercedes-AMG GT from the front three-quarter',
+        caption: 'Mercedes-AMG GT, front three-quarter.',
       },
     ],
     features: [

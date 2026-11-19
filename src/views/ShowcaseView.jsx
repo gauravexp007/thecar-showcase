@@ -3,6 +3,7 @@ import {
   AnimatePresence,
   motion,
   useInView,
+  useMotionValueEvent,
   useReducedMotion,
   useScroll,
   useSpring,
@@ -151,6 +152,7 @@ const HERO_CARS = [
     name: 'Rolls-Royce',
     founded: '1904',
     src: '/marques/rolls-1.webp',
+    logo: '/logos/rolls-royce.png',
     alt: 'A pale blue Rolls-Royce Spectre in a studio',
   },
   {
@@ -158,6 +160,7 @@ const HERO_CARS = [
     name: 'Bentley',
     founded: '1919',
     src: '/marques/bentley-1.webp',
+    logo: '/logos/bentley.png',
     alt: 'A green Bentley Continental GT',
   },
   {
@@ -165,6 +168,7 @@ const HERO_CARS = [
     name: 'Aston Martin',
     founded: '1913',
     src: '/marques/aston-1.webp',
+    logo: '/logos/aston-martin.png',
     alt: 'A silver Aston Martin Vanquish',
   },
   {
@@ -172,6 +176,7 @@ const HERO_CARS = [
     name: 'Ferrari',
     founded: '1939',
     src: '/marques/ferrari-1.webp',
+    logo: '/logos/ferrari.png',
     alt: 'A white Ferrari 12Cilindri',
   },
   {
@@ -179,6 +184,7 @@ const HERO_CARS = [
     name: 'Lamborghini',
     founded: '1963',
     src: '/marques/lambo-1.webp',
+    logo: '/logos/lamborghini.png',
     alt: 'A Lamborghini Revuelto',
   },
 ];
@@ -247,43 +253,58 @@ function HeroLineup({ style }) {
   const reduced = useReducedMotion();
 
   return (
-    <motion.div style={style} className="relative">
+    <motion.div style={style} className="relative mx-auto w-full max-w-[1180px]">
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 -top-8 -bottom-12 -z-10 bg-[radial-gradient(56%_100%_at_50%_100%,rgba(201,161,90,0.11),transparent_74%)]"
+        className="pointer-events-none absolute inset-x-8 -top-8 -bottom-12 -z-10 bg-[radial-gradient(50%_100%_at_50%_100%,rgba(201,161,90,0.1),transparent_74%)]"
       />
 
-      <div className="no-scrollbar flex snap-x snap-mandatory items-end gap-3 overflow-x-auto pb-1 md:justify-center md:gap-4 md:overflow-visible">
+      <div className="no-scrollbar flex snap-x snap-mandatory items-end gap-2.5 overflow-x-auto pb-1 sm:gap-3.5 md:justify-center md:overflow-visible">
         {HERO_CARS.map((car, i) => {
           const mid = i === Math.floor(HERO_CARS.length / 2);
           return (
             <motion.figure
               key={car.id}
-              initial={{ opacity: 0, y: reduced ? 0 : 80, scale: reduced ? 1 : 0.95 }}
+              initial={{ opacity: 0, y: reduced ? 0 : 64, scale: reduced ? 1 : 0.97 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               transition={{
-                duration: reduced ? 0.3 : 1.2,
-                delay: reduced ? 0 : 0.5 + i * 0.14,
+                duration: reduced ? 0.3 : 1.1,
+                delay: reduced ? 0 : 0.5 + i * 0.12,
                 ease: EASE,
               }}
-              className={`group relative shrink-0 snap-center overflow-hidden border border-[#f4f1ea]/15 shadow-[0_28px_60px_-34px_rgba(0,0,0,0.9)] md:shrink ${
-                mid ? 'w-[86%] md:w-auto md:flex-[1.3]' : 'w-[82%] md:w-auto md:flex-1'
+              className={`group flex w-[45%] shrink-0 snap-center flex-col items-center gap-2 sm:w-[30%] sm:shrink md:w-auto md:flex-1 ${
+                mid ? 'md:-translate-y-2' : ''
               }`}
             >
-              <img
-                src={car.src}
-                alt={car.alt}
-                style={{ aspectRatio: mid ? '16 / 9.6' : '16 / 10' }}
-                className="w-full object-cover object-[50%_56%] transition-transform duration-[1400ms] ease-out group-hover:scale-[1.05]"
-              />
-              <figcaption className="pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-between gap-2 bg-gradient-to-t from-[#050607]/70 to-transparent px-3 pt-8 pb-2.5">
-                <span className="font-lemon text-[8px] tracking-[0.2em] text-[#f7f4ee] uppercase sm:text-[9px]">
-                  {car.name}
-                </span>
-                <span className="font-lemon hidden text-[7.5px] tracking-[0.16em] text-[#f4f1ea]/45 sm:block">
-                  {car.founded}
-                </span>
-              </figcaption>
+              <div className="flex h-7 w-full items-end justify-center sm:h-8">
+                <img
+                  src={car.logo}
+                  alt={`${car.name} logo`}
+                  loading="eager"
+                  className="max-h-5 w-auto max-w-[78%] object-contain opacity-60 transition-opacity duration-500 group-hover:opacity-95 sm:max-h-6"
+                />
+              </div>
+
+              <div className="relative w-full overflow-hidden border border-[#f4f1ea]/15 shadow-[0_24px_50px_-30px_rgba(0,0,0,0.9)]">
+                <img
+                  src={car.src}
+                  alt={car.alt}
+                  style={{ aspectRatio: '16 / 11' }}
+                  className="w-full object-cover object-[50%_56%] transition-transform duration-[1400ms] ease-out group-hover:scale-[1.05]"
+                />
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-[#050607] via-[#050607]/45 to-transparent"
+                />
+                <figcaption className="pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-between gap-2 bg-gradient-to-t from-[#050607]/70 to-transparent px-2.5 pt-8 pb-2">
+                  <span className="font-lemon text-[7.5px] tracking-[0.18em] text-[#f7f4ee] uppercase sm:text-[8.5px]">
+                    {car.name}
+                  </span>
+                  <span className="font-lemon hidden text-[7px] tracking-[0.14em] text-[#f4f1ea]/45 sm:block">
+                    {car.founded}
+                  </span>
+                </figcaption>
+              </div>
             </motion.figure>
           );
         })}
@@ -563,92 +584,182 @@ function Index() {
 
 /* ---------------------------------------------------------------- chapter */
 
+/* A brand's mark, drawn as white line art so every house reads the same. */
+function BrandMark({ marque, className = '' }) {
+  return (
+    <img
+      src={marque.logo}
+      alt={`${marque.name} logo`}
+      loading="lazy"
+      className={`w-auto object-contain ${className}`}
+    />
+  );
+}
+
 function MarqueChapter({ marque, index }) {
   const ref = useRef(null);
   const reduced = useReducedMotion();
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] });
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end end'] });
+  const count = marque.images.length;
+  const featureCount = marque.features.length;
+  const [active, setActive] = useState(0);
+  const [activeFeature, setActiveFeature] = useState(0);
 
-  const firstScale = useTransform(scrollYProgress, [0, 1], [1.04, reduced ? 1.04 : 1.16]);
-  const secondScale = useTransform(scrollYProgress, [0, 1], [1.12, reduced ? 1.12 : 1]);
-  const secondOpacity = useTransform(scrollYProgress, [0.2, 0.55], [0, 1]);
-  const nameScale = useTransform(scrollYProgress, [0, 1], [1, reduced ? 1 : 0.9]);
-  const nameY = useTransform(scrollYProgress, [0, 1], ['0%', reduced ? '0%' : '-12%']);
-  const metaOpacity = useTransform(scrollYProgress, [0, 0.45], [1, 0.55]);
+  /* The stage is sticky for the whole section: the first third of the scroll
+     walks through the photographs of this house, the rest opens its feature
+     points one at a time. */
+  useMotionValueEvent(scrollYProgress, 'change', (value) => {
+    const image = Math.min(count - 1, Math.floor(value * count));
+    const feature = Math.min(
+      featureCount - 1,
+      Math.max(0, Math.floor(((value - 0.34) / 0.66) * featureCount)),
+    );
+    setActive((current) => (current === image ? current : image));
+    setActiveFeature((current) => (current === feature ? current : feature));
+  });
+
+  const markY = useTransform(scrollYProgress, [0, 0.28], [reduced ? 0 : 22, 0]);
+  const markOpacity = useTransform(scrollYProgress, [0, 0.14], [0, 1]);
+  const stageY = useTransform(scrollYProgress, [0, 1], [reduced ? 0 : 16, reduced ? 0 : -16]);
+  const barWidth = useTransform(scrollYProgress, [0, 1], ['0%', '100%']);
 
   return (
     <section
       id={`marque-${marque.id}`}
       ref={ref}
       className="relative"
-      style={{ height: '205svh' }}
+      style={{ height: `${120 + count * 30}svh` }}
     >
-      <div className="sticky top-0 flex h-[100svh] flex-col overflow-hidden">
-        <motion.img
-          src={marque.images[0].src}
-          alt={marque.images[0].alt}
-          loading={index < 2 ? 'eager' : 'lazy'}
-          style={{ scale: firstScale }}
-          className="absolute inset-0 -z-20 h-full w-full object-cover"
-        />
-        <motion.img
-          src={marque.images[1].src}
-          alt={marque.images[1].alt}
-          loading="lazy"
-          style={{ scale: secondScale, opacity: secondOpacity }}
-          className="absolute inset-0 -z-20 h-full w-full object-cover"
-        />
-        <Vignette />
+      <div className="sticky top-0 flex h-[100svh] items-center overflow-hidden px-5 pt-24 pb-10 sm:px-8">
+        <div className="mx-auto grid w-full max-w-[1360px] items-center gap-8 lg:grid-cols-[1.08fr_0.92fr] lg:gap-14">
+          {/* photographs of this house ------------------------------------- */}
+          <motion.div style={{ y: stageY }}>
+            <div className="relative aspect-[16/10] overflow-hidden border border-[#f4f1ea]/15 bg-[#0b0c0d]">
+              {marque.images.map((image, i) => (
+                <motion.img
+                  key={image.src}
+                  src={image.src}
+                  alt={image.alt}
+                  loading={index < 2 ? 'eager' : 'lazy'}
+                  animate={{ opacity: i === active ? 1 : 0, scale: i === active ? 1 : 1.035 }}
+                  transition={{ duration: 0.7, ease: EASE }}
+                  className="absolute inset-0 h-full w-full object-cover"
+                />
+              ))}
 
-        <div className="mx-auto flex h-full w-full max-w-[1600px] flex-col justify-between px-5 pt-24 pb-10 sm:px-8 sm:pb-14">
-          <motion.div style={{ opacity: metaOpacity }} className="flex items-start justify-between gap-4">
-            <p className="sc-kicker">
-              {pad(index + 1)} <span className="mx-2 text-[#f4f1ea]/25">/</span>
-              {pad(MARQUES.length)}
-            </p>
-            <p className="sc-kicker text-right">
-              {marque.city}
-              <span className="mx-2 text-[#f4f1ea]/25">·</span>
-              {marque.country}
-              <span className="mx-2 text-[#f4f1ea]/25">·</span>
-              {marque.founded}
-            </p>
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-x-0 top-0 h-[42%] bg-gradient-to-b from-[#050607] via-[#050607]/40 to-transparent"
+              />
+
+              <div className="pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 bg-gradient-to-t from-[#050607]/80 to-transparent px-4 pt-10 pb-3">
+                <p className="sc-kicker !text-[8.5px] !tracking-[0.2em] !text-[#f4f1ea]/75">
+                  {marque.images[active].caption}
+                </p>
+                <p className="sc-kicker !text-[8.5px] !tracking-[0.2em]">
+                  {pad(active + 1)}
+                  <span className="mx-1 text-[#f4f1ea]/30">/</span>
+                  {pad(count)}
+                </p>
+              </div>
+            </div>
+
+            {/* the other previews of the same house */}
+            <div className="mt-2.5 flex gap-2">
+              {marque.images.map((image, i) => (
+                <button
+                  key={`${image.src}-preview`}
+                  type="button"
+                  onClick={() => setActive(i)}
+                  aria-label={`Show ${image.caption}`}
+                  className={`group relative aspect-[16/10] flex-1 overflow-hidden border transition-colors duration-500 ${
+                    i === active
+                      ? 'border-[#c9a15a]/70'
+                      : 'border-[#f4f1ea]/15 hover:border-[#f4f1ea]/40'
+                  }`}
+                >
+                  <img
+                    src={image.src}
+                    alt=""
+                    loading="lazy"
+                    className={`h-full w-full object-cover transition-all duration-500 ${
+                      i === active ? 'opacity-100' : 'opacity-40 group-hover:opacity-80'
+                    }`}
+                  />
+                </button>
+              ))}
+            </div>
+
+            <div className="mt-2 h-px w-full bg-[#f4f1ea]/15">
+              <motion.div style={{ width: barWidth }} className="h-px bg-[#c9a15a]/80" />
+            </div>
           </motion.div>
 
-          <motion.div style={{ scale: nameScale, y: nameY }} className="origin-center text-center">
+          {/* the argument of this house ------------------------------------ */}
+          <div>
+            <motion.div style={{ y: markY, opacity: markOpacity }} className="flex items-center gap-4">
+              <BrandMark marque={marque} className="max-h-9 max-w-[124px] opacity-85 sm:max-h-11" />
+              <span className="h-px flex-1 bg-[#f4f1ea]/15" />
+              <span className="sc-kicker !text-[9px]">
+                {pad(index + 1)}
+                <span className="mx-1.5 text-[#f4f1ea]/25">/</span>
+                {pad(MARQUES.length)}
+              </span>
+            </motion.div>
+
             <h2
-              className="sc-brand sc-photo-title whitespace-nowrap"
-              style={{ fontSize: brandSize(marque.name) }}
+              className="sc-brand mt-5 text-[#f7f4ee]"
+              style={{ fontSize: 'clamp(1.6rem, 3.2vw, 2.7rem)' }}
             >
               {marque.name}
             </h2>
-            <motion.p
-              initial={{ opacity: 0, y: 14 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-20% 0px' }}
-              transition={{ duration: 0.9, delay: 0.2, ease: EASE }}
-              className="sc-serif mx-auto mt-3 text-[clamp(1rem,2vw,1.55rem)] italic text-[#f4f1ea]/90 [text-shadow:0_1px_3px_rgba(0,0,0,0.7),0_2px_22px_rgba(0,0,0,0.95)]"
-            >
+            <p className="sc-serif mt-2 text-[clamp(0.98rem,1.7vw,1.3rem)] italic text-[#d8b478]">
               {marque.tagline}
-            </motion.p>
-          </motion.div>
+            </p>
+            <p className="sc-body mt-4 max-w-[470px] !text-[13px] !leading-[1.7]">{marque.intro}</p>
 
-          <div className="grid gap-6 border-t border-[#f4f1ea]/15 pt-5 sm:gap-8 sm:pt-6 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
-            <Reveal y={20}>
-              <p className="sc-body max-w-[560px] !text-[#f4f1ea]/[0.95] [text-shadow:0_1px_3px_rgba(0,0,0,0.8),0_2px_22px_rgba(0,0,0,0.95)]">{marque.intro}</p>
-            </Reveal>
-            <Reveal delay={0.08} y={20}>
-              <dl className="hidden grid-cols-3 gap-4 sm:grid lg:justify-self-end lg:text-right">
-                {marque.signature.map(([label, value]) => (
-                  <div key={label}>
-                    <dt className="sc-kicker !text-[9px] !tracking-[0.22em]">{label}</dt>
-                    <dd className="mt-1.5 text-[12.5px] leading-tight text-[#f4f1ea]/85">{value}</dd>
-                  </div>
-                ))}
-              </dl>
-              <p className="sc-kicker mt-4 hidden !text-[8.5px] !tracking-[0.18em] !text-[#f4f1ea]/50 sm:block lg:text-right">
-                {marque.images[0].caption}
-              </p>
-            </Reveal>
+            <div className="mt-4 flex flex-wrap items-baseline gap-x-5 gap-y-1 border-y border-[#f4f1ea]/12 py-2.5">
+              <span className="sc-kicker !text-[8.5px]">{marque.city}</span>
+              <span className="sc-kicker !text-[8.5px]">{marque.country}</span>
+              <span className="sc-kicker !text-[8.5px]">Founded {marque.founded}</span>
+            </div>
+
+            <ol className="hidden sm:block">
+              {marque.features.map((feature, i) => {
+                const open = i === activeFeature;
+                return (
+                  <li
+                    key={feature.title}
+                    className={`border-b border-[#f4f1ea]/12 py-3 transition-opacity duration-500 ${
+                      open ? 'opacity-100' : 'opacity-40'
+                    }`}
+                  >
+                    <div className="flex items-baseline gap-3">
+                      <span
+                        className={`sc-kicker !text-[9px] !tracking-[0.2em] transition-colors duration-500 ${
+                          open ? '!text-[#d8b478]' : ''
+                        }`}
+                      >
+                        {pad(i + 1)}
+                      </span>
+                      <h3 className="sc-serif text-[clamp(1rem,1.6vw,1.2rem)] leading-tight text-[#f7f4ee]">
+                        {feature.title}
+                      </h3>
+                    </div>
+                    {open ? (
+                      <motion.p
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        transition={{ duration: 0.45, ease: EASE }}
+                        className="sc-body mt-2 max-w-[430px] overflow-hidden pl-7 !text-[12.5px] !leading-[1.65]"
+                      >
+                        {feature.body}
+                      </motion.p>
+                    ) : null}
+                  </li>
+                );
+              })}
+            </ol>
           </div>
         </div>
       </div>
