@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ArrowRight, SearchX } from 'lucide-react';
+import { ArrowRight, Check, SearchX } from 'lucide-react';
 import PaintSwatches from '../components/PaintSwatches';
 import CarStage from '../components/CarStage';
 import SiteHeader from '../components/SiteHeader';
@@ -14,6 +14,7 @@ import {
   formatSpecValue,
   fuelLabel,
   headlineSpecs,
+  specRows,
 } from '../lib/format';
 import { carHash } from '../lib/hash';
 
@@ -112,11 +113,73 @@ export default function BrowseView({
           onSelectCar={onSelectCar}
           onStep={onStep}
         />
+
+        <ShowroomDetails car={car} />
       </main>
 
       <Footer />
       <CompareTray cars={compareCars} onRemove={onRemoveCompare} onClear={onClearCompare} />
     </div>
+  );
+}
+
+/* The showroom card for the car on the stage: what it is, what makes it
+   special, and the figures people actually compare before a test drive. */
+function ShowroomDetails({ car }) {
+  const cells = [
+    { key: 'price', label: 'Price', value: formatPrice(car.price) },
+    { key: 'engine', label: 'Engine', value: car.engine },
+    { key: 'drivetrain', label: 'Drivetrain', value: car.drivetrain },
+    ...specRows(car).map((row) => ({
+      key: row.key,
+      label: row.label,
+      value: formatSpecValue(row),
+    })),
+  ];
+
+  return (
+    <section className="border-t border-line bg-paper/60">
+      <div className="mx-auto w-full max-w-[1300px] px-4 py-7 sm:px-6 lg:px-8">
+        <div className="grid gap-7 lg:grid-cols-[1.05fr_1fr] lg:gap-12">
+          <div className="min-w-0">
+            <h2 className="label">
+              The {car.model}, in detail
+            </h2>
+            <p className="mt-2 max-w-[58ch] text-[14.5px] leading-relaxed text-muted">
+              {car.description}
+            </p>
+
+            <h3 className="mt-5 text-[11px] tracking-[0.14em] text-muted uppercase">
+              Specialities
+            </h3>
+            <ul className="mt-2 flex flex-wrap gap-1.5">
+              {car.features.map((feature) => (
+                <li
+                  key={feature}
+                  className="flex items-center gap-1.5 rounded-chip border border-line bg-white px-2.5 py-1 text-[12.5px] text-ink"
+                >
+                  <Check size={12} aria-hidden="true" className="shrink-0 text-muted" />
+                  {feature}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <dl className="grid grid-cols-2 gap-x-6 gap-y-4 border-line sm:grid-cols-3 lg:border-l lg:pl-10">
+            {cells.map((cell) => (
+              <div key={cell.key} className="min-w-0">
+                <dt className="text-[10.5px] tracking-[0.13em] text-muted uppercase">
+                  {cell.label}
+                </dt>
+                <dd className="mt-1 text-[13.5px] leading-snug text-ink tabular-nums">
+                  {cell.value}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </div>
+    </section>
   );
 }
 

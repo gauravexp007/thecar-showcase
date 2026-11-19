@@ -7,7 +7,7 @@ export default function Footer() {
     <footer className="mt-8 border-t border-line bg-white">
       <div className="mx-auto w-full max-w-[1500px] px-4 py-7 text-[12.5px] leading-relaxed text-muted sm:px-6 lg:px-8">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-          <p className="font-display text-[20px] leading-none text-ink">
+          <p className="font-brand text-[24px] leading-none text-ink">
             goldenline<span className="text-gold">.</span>
           </p>
           <p className="max-w-[560px]">

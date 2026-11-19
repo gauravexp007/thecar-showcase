@@ -15,7 +15,7 @@ export const MARQUES = [
   {
     id: 'rolls-royce',
     name: 'Rolls-Royce',
-    logo: '/logos/rolls-royce.png',
+    logo: '/logos/rolls-royce.webp',
     country: 'England',
     city: 'Goodwood',
     founded: '1904',
@@ -86,7 +86,7 @@ export const MARQUES = [
   {
     id: 'bentley',
     name: 'Bentley',
-    logo: '/logos/bentley.png',
+    logo: '/logos/bentley.webp',
     country: 'England',
     city: 'Crewe',
     founded: '1919',
@@ -157,7 +157,7 @@ export const MARQUES = [
   {
     id: 'aston-martin',
     name: 'Aston Martin',
-    logo: '/logos/aston-martin.png',
+    logo: '/logos/aston-martin.webp',
     country: 'England',
     city: 'Gaydon',
     founded: '1913',
@@ -228,7 +228,7 @@ export const MARQUES = [
   {
     id: 'porsche',
     name: 'Porsche',
-    logo: '/logos/porsche.png',
+    logo: '/logos/porsche.webp',
     country: 'Germany',
     city: 'Stuttgart',
     founded: '1931',
@@ -299,7 +299,7 @@ export const MARQUES = [
   {
     id: 'bmw',
     name: 'BMW',
-    logo: '/logos/bmw.png',
+    logo: '/logos/bmw.webp',
     country: 'Germany',
     city: 'Munich',
     founded: '1916',
@@ -370,7 +370,7 @@ export const MARQUES = [
   {
     id: 'ferrari',
     name: 'Ferrari',
-    logo: '/logos/ferrari.png',
+    logo: '/logos/ferrari.webp',
     country: 'Italy',
     city: 'Maranello',
     founded: '1939',
@@ -441,7 +441,7 @@ export const MARQUES = [
   {
     id: 'lamborghini',
     name: 'Lamborghini',
-    logo: '/logos/lamborghini.png',
+    logo: '/logos/lamborghini.webp',
     country: 'Italy',
     city: "Sant'Agata Bolognese",
     founded: '1963',
@@ -512,7 +512,7 @@ export const MARQUES = [
   {
     id: 'pagani',
     name: 'Pagani',
-    logo: '/logos/pagani.png',
+    logo: '/logos/pagani.webp',
     country: 'Italy',
     city: 'San Cesario sul Panaro',
     founded: '1992',
@@ -583,7 +583,7 @@ export const MARQUES = [
   {
     id: 'koenigsegg',
     name: 'Koenigsegg',
-    logo: '/logos/koenigsegg.png',
+    logo: '/logos/koenigsegg.webp',
     country: 'Sweden',
     city: 'Ängelholm',
     founded: '1994',
@@ -654,7 +654,7 @@ export const MARQUES = [
   {
     id: 'bugatti',
     name: 'Bugatti',
-    logo: '/logos/bugatti.png',
+    logo: '/logos/bugatti.webp',
     country: 'France',
     city: 'Molsheim',
     founded: '1909',
@@ -725,7 +725,7 @@ export const MARQUES = [
   {
     id: 'mclaren',
     name: 'McLaren',
-    logo: '/logos/mclaren.png',
+    logo: '/logos/mclaren.webp',
     country: 'England',
     city: 'Woking',
     founded: '1963',
@@ -796,7 +796,7 @@ export const MARQUES = [
   {
     id: 'mercedes-amg',
     name: 'Mercedes-AMG',
-    logo: '/logos/mercedes-amg.png',
+    logo: '/logos/mercedes-amg.webp',
     country: 'Germany',
     city: 'Affalterbach',
     founded: '1967',
@@ -860,6 +860,219 @@ export const MARQUES = [
         top: '200 mph',
         price: 'from $197,000',
         note: 'The V8 plus an electric motor on the rear axle, 1,033 lb-ft, and a 6.1 kWh battery for short electric running.',
+      },
+    ],
+    sprintLabel: '0–60 mph',
+  },
+  {
+    id: 'ford',
+    name: 'Ford',
+    logo: '/logos/ford.webp',
+    country: 'United States',
+    city: 'Dearborn',
+    founded: '1903',
+    tagline: 'The car for everyone, and a pony car.',
+    intro:
+      'Ford did not invent the car, but it invented the idea that one could be ordinary. The Model T put America on wheels; the Mustang, in 1964, gave the same company a coupe for people who wanted more than transport. Both arguments are still running — one in a Bronco, one in a V8.',
+    signature: [
+      ['Founded', '1903'],
+      ['Based in', 'Dearborn, Michigan'],
+      ['Known for', 'The pony car'],
+    ],
+    images: [
+      {
+        src: '/marques/ford-1.webp',
+        alt: 'A black Ford Mustang GT from the rear three-quarter at night',
+        caption: 'Ford Mustang GT, S650 generation.',
+      },
+      {
+        src: '/marques/ford-2.webp',
+        alt: 'A red Ford Mustang Mach-E from the front three-quarter',
+        caption: 'Ford Mustang Mach-E.',
+      },
+      {
+        src: '/marques/ford-3.webp',
+        alt: 'A grey two-door Ford Bronco from the front',
+        caption: 'Ford Bronco, two-door.',
+      },
+    ],
+    features: [
+      {
+        title: 'The pony car',
+        body:
+          'Long bonnet, short rear deck, rear-wheel drive, and a list of options long enough to make the base price a work of fiction. Ford sold a million Mustangs within two years of the 1964 launch, and the current car is still built to the same brief.',
+      },
+      {
+        title: 'A V8 for the middle class',
+        body:
+          'The 5.0-litre Coyote in the Mustang GT makes 486 hp with no turbochargers and no hybrid help, in a car that starts under $47,000. Nothing else on sale offers that much naturally aspirated V8 for the money — and Ford knows it.',
+      },
+      {
+        title: 'The electric Mustang',
+        body:
+          'The Mach-E borrowed the badge and took the criticism. It has since become the best-selling electric Ford: two motors, a 91 kWh battery, and a Rally version with raised suspension that will happily leave a tarmac road.',
+      },
+    ],
+    models: [
+      {
+        name: 'Mustang GT',
+        sub: 'V8 coupe',
+        power: '486 hp',
+        sprint: '4.2 s',
+        top: '166 mph',
+        price: 'from $46,480',
+        note: '5.0-litre Coyote V8, 415 lb-ft, a six-speed manual as standard and a limited-slip axle.',
+      },
+      {
+        name: 'Mustang Mach-E',
+        sub: 'Electric crossover',
+        power: '365 hp',
+        sprint: '4.8 s',
+        top: '112 mph',
+        price: 'from $41,990',
+        note: 'Dual motors and a 91 kWh extended-range battery; 290 miles, and a cabin that seats five.',
+      },
+    ],
+    sprintLabel: '0–60 mph',
+  },
+  {
+    id: 'chevrolet',
+    name: 'Chevrolet',
+    logo: '/logos/chevrolet.webp',
+    country: 'United States',
+    city: 'Detroit',
+    founded: '1911',
+    tagline: 'The small block, still swinging.',
+    intro:
+      'Chevrolet built its name on cars that cost less than they looked and went faster than they should. The small-block V8 of 1955 made speed affordable, and the Corvette has carried that idea further than anyone expected: in 2020 it moved its engine behind the driver and became a mid-engined supercar for the price of a German saloon.',
+    signature: [
+      ['Founded', '1911'],
+      ['Based in', 'Detroit, Michigan'],
+      ['Known for', 'The small-block V8'],
+    ],
+    images: [
+      {
+        src: '/marques/chevrolet-1.webp',
+        alt: 'A black Chevrolet Corvette Stingray with white stripes',
+        caption: 'Chevrolet Corvette Stingray, C8.',
+      },
+      {
+        src: '/marques/chevrolet-2.webp',
+        alt: 'A blue Chevrolet Corvette Z06 from the front three-quarter',
+        caption: 'Chevrolet Corvette Z06.',
+      },
+      {
+        src: '/marques/chevrolet-3.webp',
+        alt: 'A red Chevrolet Blazer EV from the front three-quarter',
+        caption: 'Chevrolet Blazer EV SS.',
+      },
+    ],
+    features: [
+      {
+        title: 'The small block',
+        body:
+          'The 1955 Chevrolet V8 was cheap to build, light, and easy to tune — which is why it became the engine every hot rod in America was built around. Seventy years later Chevrolet still sells crate versions of the same architecture.',
+      },
+      {
+        title: 'Mid-engined at last',
+        body:
+          'After 67 years of front-engined Corvettes, the C8 put the V8 behind the seats. The handling changed completely, the price did not: it still undercuts every other mid-engined car on sale by a wide margin.',
+      },
+      {
+        title: 'A flat-plane V8',
+        body:
+          'The Z06 uses the LT6, a 5.5-litre V8 with a flat-plane crank that revs to 8,600 rpm and makes 670 hp without a turbocharger. It is the highest-revving production V8 America has built, and it sounds like a race engine because it is one.',
+      },
+    ],
+    models: [
+      {
+        name: 'Corvette Stingray',
+        sub: 'Mid-engined V8 coupe',
+        power: '490 hp',
+        sprint: '2.9 s',
+        top: '194 mph',
+        price: 'from $68,300',
+        note: '6.2-litre LT2 V8, 465 lb-ft, an eight-speed dual-clutch and a removable roof panel.',
+      },
+      {
+        name: 'Corvette Z06',
+        sub: 'Flat-plane V8 coupe',
+        power: '670 hp',
+        sprint: '2.6 s',
+        top: '195 mph',
+        price: 'from $112,700',
+        note: '5.5-litre LT6 to 8,600 rpm, 460 lb-ft, and carbon-fibre wheels on the option list.',
+      },
+    ],
+    sprintLabel: '0–60 mph',
+  },
+  {
+    id: 'maserati',
+    name: 'Maserati',
+    logo: '/logos/maserati.webp',
+    country: 'Italy',
+    city: 'Modena',
+    founded: '1914',
+    tagline: 'The trident, and a race engine.',
+    intro:
+      'The Maserati brothers built racing cars before they built road cars, and the badge they chose in 1926 is the trident from Bologna’s Neptune fountain. The company has changed hands more often than any other marque here, but it still builds its own engines — including the Nettuno, a V6 with combustion technology borrowed from Formula 1.',
+    signature: [
+      ['Founded', '1914'],
+      ['Built in', 'Modena, Italy'],
+      ['Known for', 'The trident'],
+    ],
+    images: [
+      {
+        src: '/marques/maserati-1.webp',
+        alt: 'A white Maserati GranTurismo Trofeo from the front three-quarter',
+        caption: 'Maserati GranTurismo Trofeo.',
+      },
+      {
+        src: '/marques/maserati-2.webp',
+        alt: 'A white Maserati MC20 with its butterfly doors open',
+        caption: 'Maserati MC20, butterfly doors open.',
+      },
+      {
+        src: '/marques/maserati-3.webp',
+        alt: 'A grey Maserati Grecale from the front three-quarter',
+        caption: 'Maserati Grecale.',
+      },
+    ],
+    features: [
+      {
+        title: 'The trident',
+        body:
+          'Mario Maserati drew the badge from the fountain of Neptune in Bologna, and a Maserati Tipo 26 wore it at the 1926 Targa Florio. It has survived six owners, a move to Modena and a decade under Ferrari, and it still means a car built with a racing engine in mind.',
+      },
+      {
+        title: 'Nettuno',
+        body:
+          'The MC20’s 3.0-litre V6 uses a pre-chamber combustion system developed from Formula 1: a small auxiliary chamber ignites the main charge, which lets the engine run leaner and rev harder. Maserati builds it in Modena, in the same plant as the car.',
+      },
+      {
+        title: 'The grand tourer',
+        body:
+          'The GranTurismo has been the marque’s long-distance car since 2007. The Folgore version replaces the V8 with three motors and a battery under the floor, keeping the long bonnet and the four seats — and hitting 60 mph in 2.7 seconds.',
+      },
+    ],
+    models: [
+      {
+        name: 'MC20',
+        sub: 'V6 supercar',
+        power: '621 hp',
+        sprint: '2.9 s',
+        top: '202 mph',
+        price: 'from $242,000',
+        note: 'Nettuno 3.0-litre V6 with pre-chamber ignition, 538 lb-ft, and a carbon monocoque under 1,500 kg.',
+      },
+      {
+        name: 'GranTurismo Folgore',
+        sub: 'Electric grand tourer',
+        power: '751 hp',
+        sprint: '2.7 s',
+        top: '199 mph',
+        price: 'from $192,000',
+        note: 'Three motors, a 92.5 kWh battery and 242 miles of range in a four-seat body.',
       },
     ],
     sprintLabel: '0–60 mph',

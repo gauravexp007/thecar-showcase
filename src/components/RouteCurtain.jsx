@@ -30,7 +30,7 @@ export default function RouteCurtain({ phase, label }) {
       transition={{ duration: phase === 'in' ? 0.58 : 0.74, ease: EASE }}
     >
       <div className="text-center">
-        <p className="font-lemon text-[10px] tracking-[0.42em] text-[#f4f1ea]/45 uppercase sm:text-[11px]">
+        <p className="font-brand text-[20px] leading-none text-[#f4f1ea]/60 sm:text-[22px]">
           goldenline
         </p>
         <p className="mt-4 font-display text-[clamp(2rem,5vw,3.2rem)] leading-none italic text-[#f4f1ea]">

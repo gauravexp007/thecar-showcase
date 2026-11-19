@@ -11,10 +11,26 @@
   src: url('/fonts/lemon-milk-bold.woff') format('woff');
 }
 
+@font-face {
+  font-family: 'Casko Luxury';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/casko-luxury.otf') format('opentype');
+}
+
 @layer utilities {
   .font-lemon {
     font-family: 'Lemon Milk', 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
     font-weight: 700;
+    font-synthesis: none;
+  }
+
+  /* The wordmark: Casko Luxury (demo cut), kept lowercase so the swash g and
+     the fi ligature do the work instead of letter-spacing. */
+  .font-brand {
+    font-family: 'Casko Luxury', 'Instrument Serif', ui-serif, Georgia, serif;
+    font-weight: 400;
     font-synthesis: none;
   }
 }

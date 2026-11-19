@@ -143,10 +143,10 @@ export default function PhotoGallery({ car, variant = 'grid' }) {
                 className="group relative block h-12 w-[68px] overflow-hidden rounded-[7px] bg-[#EDECE8] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink sm:h-14 sm:w-[84px]"
               >
                 <img
-                  src={photo.small}
+                  src={photo.src}
                   width={photo.width}
                   height={photo.height}
-                                    alt={photo.alt}
+                  alt={photo.alt}
                   loading="eager"
                   decoding="async"
                   className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.06]
@@ -184,9 +184,7 @@ export default function PhotoGallery({ car, variant = 'grid' }) {
               className="group relative block aspect-[3/2] w-full overflow-hidden rounded-[10px] bg-[#EDECE8] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
             >
               <img
-                src={photo.small}
-                srcSet={`${photo.small} 700w, ${photo.src} 1400w`}
-                sizes="(min-width: 1024px) 260px, 32vw"
+                src={photo.src}
                 width={photo.width}
                 height={photo.height}
                 alt={photo.alt}

@@ -26,6 +26,14 @@ export default function SpecPanel({
       <PaintSwatches colors={car.colors} value={paintKey} onChange={onPaint} className="mt-4" />
 
       <dl className="mt-5">
+        <div className="spec-line">
+          <dt className="text-muted">Engine</dt>
+          <dd className="font-medium">{car.engine}</dd>
+        </div>
+        <div className="spec-line">
+          <dt className="text-muted">Drivetrain</dt>
+          <dd className="font-medium">{car.drivetrain}</dd>
+        </div>
         {rows.map((row) => (
           <div key={row.key} className="spec-line">
             <dt className="text-muted">{row.label}</dt>

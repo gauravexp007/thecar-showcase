@@ -113,7 +113,7 @@ function ShowcaseNav({ compareCount }) {
       <div className="mx-auto flex h-[72px] max-w-[1600px] items-center justify-between px-5 sm:px-8">
         <a
           href="#/"
-          className="font-lemon text-[12px] tracking-[0.36em] text-[#f4f1ea] uppercase sm:text-[13px]"
+          className="font-brand text-[22px] leading-none text-[#f4f1ea] sm:text-[25px]"
         >
           goldenline
         </a>
@@ -152,7 +152,7 @@ const HERO_CARS = [
     name: 'Rolls-Royce',
     founded: '1904',
     src: '/marques/rolls-1.webp',
-    logo: '/logos/rolls-royce.png',
+    logo: '/logos/rolls-royce.webp',
     alt: 'A pale blue Rolls-Royce Spectre in a studio',
   },
   {
@@ -160,7 +160,7 @@ const HERO_CARS = [
     name: 'Bentley',
     founded: '1919',
     src: '/marques/bentley-1.webp',
-    logo: '/logos/bentley.png',
+    logo: '/logos/bentley.webp',
     alt: 'A green Bentley Continental GT',
   },
   {
@@ -168,7 +168,7 @@ const HERO_CARS = [
     name: 'Aston Martin',
     founded: '1913',
     src: '/marques/aston-1.webp',
-    logo: '/logos/aston-martin.png',
+    logo: '/logos/aston-martin.webp',
     alt: 'A silver Aston Martin Vanquish',
   },
   {
@@ -176,7 +176,7 @@ const HERO_CARS = [
     name: 'Ferrari',
     founded: '1939',
     src: '/marques/ferrari-1.webp',
-    logo: '/logos/ferrari.png',
+    logo: '/logos/ferrari.webp',
     alt: 'A white Ferrari 12Cilindri',
   },
   {
@@ -184,14 +184,14 @@ const HERO_CARS = [
     name: 'Lamborghini',
     founded: '1963',
     src: '/marques/lambo-1.webp',
-    logo: '/logos/lamborghini.png',
+    logo: '/logos/lamborghini.webp',
     alt: 'A Lamborghini Revuelto',
   },
 ];
 
 const HERO_QUOTES = [
   'A badge says where a car was built. The car says why.',
-  'Twelve houses, twelve arguments, each defended for a century.',
+  'Fifteen houses, fifteen arguments, each defended for a century.',
   'Speed is easy. Character takes a hundred years.',
   'Some companies sell cars. A few sell a point of view.',
   'Read the house, not the badge.',
@@ -415,7 +415,7 @@ function Hero() {
             <span className="mx-2" aria-hidden="true">
               /
             </span>
-            1909 — 2026
+            1903 — 2026
           </p>
         </div>
       </div>
@@ -496,7 +496,7 @@ function Approach() {
                 {[
                   [String(MARQUES.length), 'Marques'],
                   [String(MARQUES.length * 2), 'Cars'],
-                  ['117', 'Years covered'],
+                  ['123', 'Years covered'],
                 ].map(([value, label]) => (
                   <div key={label}>
                     <dt className="sc-serif text-[clamp(1.7rem,3vw,2.4rem)] leading-none text-[#f7f4ee]">
@@ -528,7 +528,7 @@ function Index() {
           <Reveal>
             <p className="sc-kicker">The index</p>
             <h2 className="sc-serif mt-5 max-w-[16ch] text-[clamp(2.2rem,5vw,4rem)] leading-[0.98] text-[#f7f4ee]">
-              Twelve houses, in <em className="italic">order</em>
+              Fifteen houses, in <em className="italic">order</em>
             </h2>
           </Reveal>
           <Reveal delay={0.08}>
@@ -879,7 +879,7 @@ const FIGURES = [
   { value: 2300, label: 'Most power, hp' },
   { value: 330, label: 'Top speed, mph' },
   { value: 9500, label: 'Highest redline, rpm' },
-  { value: 1909, label: 'Oldest house' },
+  { value: 1903, label: 'Oldest house' },
 ];
 
 function Numbers() {
@@ -940,7 +940,7 @@ function Closing() {
         </Reveal>
         <Reveal delay={0.07}>
           <h2 className="sc-serif mt-6 text-[clamp(2.4rem,6.2vw,5rem)] leading-[0.96] text-[#f7f4ee]">
-            Twelve houses.
+            Fifteen houses.
             <br />
             <em className="italic">One place</em> to read them.
           </h2>
@@ -973,7 +973,7 @@ function ShowcaseFooter() {
     <footer className="border-t border-[#f4f1ea]/12 px-5 py-12 sm:px-8">
       <div className="mx-auto flex w-full max-w-[1600px] flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
         <div>
-          <p className="font-lemon text-[12px] tracking-[0.36em] uppercase">goldenline</p>
+          <p className="font-brand text-[22px] leading-none text-[#f4f1ea]">goldenline</p>
           <p className="mt-4 max-w-[460px] text-[12px] leading-relaxed text-[#f4f1ea]/45">
             Figures are manufacturer press data for the current generation of each car, rounded the
             way the maker publishes them. Prices are starting figures before options and local

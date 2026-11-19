@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useReducedMotion } from 'framer-motion';
 import { CARS, carsOfBrand, getCar } from './data/cars';
+import { MARQUES } from './data/marques';
 import { carHash, parseHash } from './lib/hash';
 import { preloadCarImages } from './lib/preload';
 import BrowseView from './views/BrowseView';
@@ -127,7 +128,7 @@ export default function App() {
   useEffect(() => {
     document.title =
       route.name === 'showcase'
-        ? 'Goldenline — twelve marques, explored'
+        ? `Goldenline — ${MARQUES.length} marques, explored`
         : route.name === 'detail'
           ? `${selectedCar.brand} ${selectedCar.model} — Goldenline`
           : route.name === 'compare'
