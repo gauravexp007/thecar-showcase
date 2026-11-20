@@ -31,7 +31,7 @@ export default function RouteCurtain({ phase, label }) {
     >
       <div className="text-center">
         <p className="font-brand text-[20px] leading-none text-[#f4f1ea]/60 sm:text-[22px]">
-          goldenline
+          Goldenline
         </p>
         <p className="mt-4 font-display text-[clamp(2rem,5vw,3.2rem)] leading-none italic text-[#f4f1ea]">
           {label}

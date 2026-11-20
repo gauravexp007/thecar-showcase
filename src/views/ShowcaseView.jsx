@@ -22,14 +22,6 @@ const jump = (id) => {
 
 const pad = (n) => String(n).padStart(2, '0');
 
-/* Ballpark Lemon Milk Bold advance is about 0.68em per capital, so a size
-   derived from the character count keeps every name on one line at ~90vw. */
-const brandSize = (name) => {
-  const letters = name.replace(/[^A-Za-z]/g, '').length;
-  const vw = Math.min(14, 84 / (letters * 0.78));
-  return `clamp(2.1rem, ${vw.toFixed(2)}vw, 9.5rem)`;
-};
-
 /* ---------------------------------------------------------------- fragments */
 
 function Reveal({ children, delay = 0, y = 26, className = '', as = 'div' }) {
@@ -115,7 +107,7 @@ function ShowcaseNav({ compareCount }) {
           href="#/"
           className="font-brand text-[22px] leading-none text-[#f4f1ea] sm:text-[25px]"
         >
-          goldenline
+          Goldenline
         </a>
 
         <nav className="flex items-center gap-5 sm:gap-8">
@@ -145,49 +137,11 @@ function ShowcaseNav({ compareCount }) {
 
 /* -------------------------------------------------------------------- hero */
 
-/* The five cars that stand in the opening lineup, left to right. */
-const HERO_CARS = [
-  {
-    id: 'rolls-royce',
-    name: 'Rolls-Royce',
-    founded: '1904',
-    src: '/marques/rolls-1.webp',
-    logo: '/logos/rolls-royce.webp',
-    alt: 'A pale blue Rolls-Royce Spectre in a studio',
-  },
-  {
-    id: 'bentley',
-    name: 'Bentley',
-    founded: '1919',
-    src: '/marques/bentley-1.webp',
-    logo: '/logos/bentley.webp',
-    alt: 'A green Bentley Continental GT',
-  },
-  {
-    id: 'aston-martin',
-    name: 'Aston Martin',
-    founded: '1913',
-    src: '/marques/aston-1.webp',
-    logo: '/logos/aston-martin.webp',
-    alt: 'A silver Aston Martin Vanquish',
-  },
-  {
-    id: 'ferrari',
-    name: 'Ferrari',
-    founded: '1939',
-    src: '/marques/ferrari-1.webp',
-    logo: '/logos/ferrari.webp',
-    alt: 'A white Ferrari 12Cilindri',
-  },
-  {
-    id: 'lamborghini',
-    name: 'Lamborghini',
-    founded: '1963',
-    src: '/marques/lambo-1.webp',
-    logo: '/logos/lamborghini.webp',
-    alt: 'A Lamborghini Revuelto',
-  },
-];
+/* The opening chapter: the hero is one photograph at a time, full-bleed, with
+   the headline standing on it. Scrolling walks sideways through every house in
+   the index — the next marque slides in from the right, the last slides away
+   to the left. */
+const HERO_STEP = 52; /* svh of scrolling handed to each marque */
 
 const HERO_QUOTES = [
   'A badge says where a car was built. The car says why.',
@@ -197,18 +151,6 @@ const HERO_QUOTES = [
   'Read the house, not the badge.',
   'Every great marque is one stubborn idea, repeated.',
 ];
-
-/* Photographs are left at their own brightness; only the corners fall away. */
-function Vignette({ soft = false }) {
-  return (
-    <div
-      aria-hidden="true"
-      className={`pointer-events-none absolute inset-0 -z-10 ${
-        soft ? 'sc-vignette-soft' : 'sc-vignette'
-      }`}
-    />
-  );
-}
 
 function RotatingQuote() {
   const reduced = useReducedMotion();
@@ -222,7 +164,7 @@ function RotatingQuote() {
   }, []);
 
   return (
-    <div className="relative mx-auto mt-7 h-[4.6em] max-w-[620px] overflow-hidden px-2">
+    <div className="relative mx-auto mt-7 h-[3.5em] max-w-[720px] overflow-hidden px-2">
       <AnimatePresence initial={false}>
         <motion.p
           key={index}
@@ -238,7 +180,7 @@ function RotatingQuote() {
             filter: reduced ? 'blur(0px)' : 'blur(6px)',
           }}
           transition={{ duration: 0.7, ease: EASE }}
-          className="sc-serif absolute inset-x-0 top-0 text-[clamp(1.14rem,2.1vw,1.7rem)] leading-[1.5] italic text-[#f4f1ea]/[0.88]"
+          className="sc-serif absolute inset-x-0 top-0 text-[clamp(1.2rem,2.05vw,1.75rem)] leading-[1.45] italic text-[#f4f1ea]/[0.9] [text-shadow:0_2px_30px_rgba(0,0,0,0.8)]"
         >
           {HERO_QUOTES[index]}
         </motion.p>
@@ -247,176 +189,213 @@ function RotatingQuote() {
   );
 }
 
-/* The cars stand in a row on one floor line: they rise into the frame one
-   after another, the middle one a little closer to the viewer. */
-function HeroLineup({ style }) {
-  const reduced = useReducedMotion();
+/* One car of the opening plate. The frame slides sideways with the scroll and
+   the photograph is held whole inside it — never cropped — while the car that
+   owns the plate settles to 1:1 and its neighbours sit slightly larger, which
+   gives the movement depth as well as travel. */
+function HeroSlide({ marque, index, total, progress, reduced }) {
+  /* The plate dissolves from one car to the next: each photograph is fully
+     present for its half of the step and gone by the time the next one owns
+     the plate, so the change is read as the scroll, not as a card sliding by. */
+  const opacity = useTransform(progress, (value) => {
+    const distance = Math.abs(value * (total - 1) - index);
+    if (reduced) return distance < 0.5 ? 1 : 0;
+    /* Full opacity on either side of the step, a quick dissolve across the
+       middle: the plate is never left half a car for long. */
+    return Math.max(0, Math.min(1, 1.8 - 1.8 * distance));
+  });
+
+  const scale = useTransform(opacity, [0, 1], [1.045, 1]);
+
+  const image = marque.images[0];
 
   return (
-    <motion.div style={style} className="relative mx-auto w-full max-w-[1180px]">
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-8 -top-8 -bottom-12 -z-10 bg-[radial-gradient(50%_100%_at_50%_100%,rgba(201,161,90,0.1),transparent_74%)]"
-      />
-
-      <div className="no-scrollbar flex snap-x snap-mandatory items-end gap-2.5 overflow-x-auto pb-1 sm:gap-3.5 md:justify-center md:overflow-visible">
-        {HERO_CARS.map((car, i) => {
-          const mid = i === Math.floor(HERO_CARS.length / 2);
-          return (
-            <motion.figure
-              key={car.id}
-              initial={{ opacity: 0, y: reduced ? 0 : 64, scale: reduced ? 1 : 0.97 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{
-                duration: reduced ? 0.3 : 1.1,
-                delay: reduced ? 0 : 0.5 + i * 0.12,
-                ease: EASE,
-              }}
-              className={`group flex w-[45%] shrink-0 snap-center flex-col items-center gap-2 sm:w-[30%] sm:shrink md:w-auto md:flex-1 ${
-                mid ? 'md:-translate-y-2' : ''
-              }`}
-            >
-              <div className="flex h-7 w-full items-end justify-center sm:h-8">
-                <img
-                  src={car.logo}
-                  alt={`${car.name} logo`}
-                  loading="eager"
-                  className="max-h-5 w-auto max-w-[78%] object-contain opacity-60 transition-opacity duration-500 group-hover:opacity-95 sm:max-h-6"
-                />
-              </div>
-
-              <div className="relative w-full overflow-hidden border border-[#f4f1ea]/15 shadow-[0_24px_50px_-30px_rgba(0,0,0,0.9)]">
-                <img
-                  src={car.src}
-                  alt={car.alt}
-                  style={{ aspectRatio: '16 / 11' }}
-                  className="w-full object-cover object-[50%_56%] transition-transform duration-[1400ms] ease-out group-hover:scale-[1.05]"
-                />
-                <div
-                  aria-hidden="true"
-                  className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-[#050607] via-[#050607]/45 to-transparent"
-                />
-                <figcaption className="pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-between gap-2 bg-gradient-to-t from-[#050607]/70 to-transparent px-2.5 pt-8 pb-2">
-                  <span className="font-lemon text-[7.5px] tracking-[0.18em] text-[#f7f4ee] uppercase sm:text-[8.5px]">
-                    {car.name}
-                  </span>
-                  <span className="font-lemon hidden text-[7px] tracking-[0.14em] text-[#f4f1ea]/45 sm:block">
-                    {car.founded}
-                  </span>
-                </figcaption>
-              </div>
-            </motion.figure>
-          );
-        })}
+    <motion.div
+      style={{ opacity }}
+      className="absolute inset-0 will-change-transform"
+      aria-hidden="true"
+    >
+      <div className="absolute inset-[4%] flex items-center justify-center">
+        <motion.img
+          src={image.src}
+          alt={image.alt}
+          loading={index < 2 ? 'eager' : 'lazy'}
+          decoding="async"
+          style={{ scale }}
+          className="block h-auto max-h-full w-auto max-w-full object-contain"
+        />
       </div>
-
-      <div
-        aria-hidden="true"
-        className="mt-3 hidden h-px w-full bg-gradient-to-r from-transparent via-[#f4f1ea]/25 to-transparent md:block"
-      />
     </motion.div>
   );
 }
 
 function Hero() {
-  const ref = useRef(null);
+  const stageRef = useRef(null);
   const reduced = useReducedMotion();
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] });
-  const lineupY = useTransform(scrollYProgress, [0, 1], ['0%', reduced ? '0%' : '-7%']);
-  const contentY = useTransform(scrollYProgress, [0, 1], [0, reduced ? 0 : -60]);
-  const contentFade = useTransform(scrollYProgress, [0, 0.85], [1, 0]);
+  const total = MARQUES.length;
 
-  const lines = ['The great marques.', 'Explore them.'];
+  const { scrollYProgress } = useScroll({ target: stageRef, offset: ['start start', 'end end'] });
+  const smooth = useSpring(scrollYProgress, { stiffness: 130, damping: 30, mass: 0.35 });
+  const progress = reduced ? scrollYProgress : smooth;
+
+  const [active, setActive] = useState(0);
+
+  useMotionValueEvent(progress, 'change', (value) => {
+    const next = Math.min(total - 1, Math.max(0, Math.round(value * (total - 1))));
+    setActive((current) => (current === next ? current : next));
+  });
+
+  const gotoBrand = (index) => {
+    const el = stageRef.current;
+    if (!el) return;
+    const distance = el.offsetHeight - window.innerHeight;
+    window.scrollTo({
+      top: el.offsetTop + (index / (total - 1)) * distance + 2,
+      behavior: 'smooth',
+    });
+  };
+
+  const marque = MARQUES[active];
 
   return (
     <section
       id="top"
-      ref={ref}
-      className="relative isolate flex min-h-[100svh] flex-col justify-between overflow-hidden px-5 pt-[9svh] pb-8 sm:px-8"
+      ref={stageRef}
+      className="relative"
+      style={{ height: `calc(100svh + ${(total - 1) * HERO_STEP}svh)` }}
     >
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-1/3 -z-20 h-[70%] bg-[radial-gradient(58%_58%_at_50%_45%,rgba(255,255,255,0.09),transparent_72%)]"
-      />
-      <Vignette soft />
+      <div className="sticky top-0 h-[100svh] overflow-hidden bg-[#050607]">
+        <div className="mx-auto flex h-full max-w-[1600px] flex-col gap-5 px-5 pt-[calc(72px_+_2svh)] pb-5 sm:px-8 lg:flex-row lg:items-center lg:gap-14 lg:pb-8">
+          <div className="order-1 flex min-h-0 w-full flex-col justify-center lg:order-1 lg:w-[44%] lg:flex-none">
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.1, ease: EASE }}
+              className="sc-kicker"
+            >
+              Goldenline — the marque index
+            </motion.p>
 
-      <motion.div
-        style={{ y: contentY, opacity: contentFade }}
-        className="mx-auto w-full max-w-[1150px] pt-[3svh] text-center"
-      >
-        <motion.p
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 0.1, ease: EASE }}
-          className="sc-kicker"
-        >
-          Goldenline — the marque index
-        </motion.p>
+            <h1 className="sc-serif mt-4 text-[clamp(2.2rem,5.2vw,4.6rem)] leading-[0.98] text-[#f7f4ee]">
+              <span className="block overflow-hidden pb-[0.04em]">
+                <motion.span
+                  className="block"
+                  initial={{ y: '110%' }}
+                  animate={{ y: '0%' }}
+                  transition={{ duration: 1.05, delay: 0.2, ease: EASE }}
+                >
+                  The great marques.
+                </motion.span>
+              </span>
+              <span className="block overflow-hidden pb-[0.04em]">
+                <motion.span
+                  className="block italic"
+                  initial={{ y: '110%' }}
+                  animate={{ y: '0%' }}
+                  transition={{ duration: 1.05, delay: 0.32, ease: EASE }}
+                >
+                  Explore them.
+                </motion.span>
+              </span>
+            </h1>
 
-        <h1 className="sc-serif mt-6 text-[clamp(2.6rem,7.2vw,6.2rem)] leading-[0.92] text-[#f7f4ee]">
-          {lines.map((line, index) => (
-            <span key={line} className="block overflow-hidden pb-[0.06em]">
-              <motion.span
-                className="block"
-                initial={{ y: '110%' }}
-                animate={{ y: '0%' }}
-                transition={{ duration: 1.15, delay: 0.75 + index * 0.12, ease: EASE }}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1, delay: 0.6, ease: EASE }}
+            >
+              <RotatingQuote />
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.9, delay: 0.7, ease: EASE }}
+              className="flex flex-wrap items-center gap-3"
+            >
+              <button type="button" onClick={() => jump('index')} className="sc-btn">
+                Start exploring
+                <ArrowDown size={14} aria-hidden="true" />
+              </button>
+              <a href={browseHash()} className="sc-btn sc-btn-quiet">
+                Open the showroom
+                <ArrowUpRight size={14} aria-hidden="true" />
+              </a>
+            </motion.div>
+
+            <div className="mt-7 border-t border-[#f4f1ea]/12 pt-4">
+              <div className="flex items-center gap-3">
+                <img
+                  src={marque.logo}
+                  alt={`${marque.name} logo`}
+                  loading="eager"
+                  className="h-4 w-auto max-w-[64px] object-contain opacity-80"
+                />
+                <span className="sc-kicker !text-[10px]">
+                  {pad(active + 1)}
+                  <span className="mx-1.5" aria-hidden="true">
+                    /
+                  </span>
+                  {pad(total)}
+                </span>
+                <span className="sc-kicker ml-auto hidden !text-[10px] sm:inline">
+                  Scrolls one house at a time
+                </span>
+              </div>
+
+              <motion.div
+                key={marque.id}
+                initial={{ opacity: 0, y: reduced ? 0 : 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.34, ease: EASE }}
               >
-                {index === 1 ? <em className="italic">{line}</em> : line}
-              </motion.span>
-            </span>
-          ))}
-        </h1>
+                  <p className="font-lemon mt-2.5 text-[clamp(1.5rem,2.7vw,2.4rem)] tracking-[0.05em] text-[#f7f4ee] uppercase">
+                    {marque.name}
+                  </p>
+                  <p className="mt-1.5 text-[11px] tracking-[0.2em] text-[#f4f1ea]/65 uppercase">
+                    Founded {marque.founded}
+                    <span className="mx-1.5" aria-hidden="true">
+                      /
+                    </span>
+                    {marque.city}, {marque.country}
+                  </p>
+              </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 1.35, ease: EASE }}
-        >
-          <RotatingQuote />
-        </motion.div>
+              <div className="mt-3.5 flex items-center gap-1">
+                {MARQUES.map((item, index) => (
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={() => gotoBrand(index)}
+                    aria-label={`Go to ${item.name}`}
+                    aria-current={index === active ? 'true' : undefined}
+                    className="group py-2"
+                  >
+                    <span
+                      className={`block h-px transition-all duration-500 ${
+                        index === active
+                          ? 'w-6 bg-[#c9a15a] sm:w-8'
+                          : 'w-3 bg-[#f4f1ea]/35 group-hover:bg-[#f4f1ea]/80 sm:w-4'
+                      }`}
+                    />
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 1.2, ease: EASE }}
-          className="flex flex-wrap items-center justify-center gap-3"
-        >
-          <button type="button" onClick={() => jump('index')} className="sc-btn">
-            Start exploring
-            <ArrowDown size={14} aria-hidden="true" />
-          </button>
-          <a href={browseHash()} className="sc-btn sc-btn-quiet">
-            Open the showroom
-            <ArrowUpRight size={14} aria-hidden="true" />
-          </a>
-        </motion.div>
-      </motion.div>
-
-      <div className="mt-9">
-        <HeroLineup style={{ y: lineupY }} />
-
-        <div className="mx-auto mt-6 flex w-full max-w-[1560px] items-end justify-between gap-6">
-          <button
-            type="button"
-            onClick={() => jump('approach')}
-            className="flex items-center gap-3 text-left"
-            aria-label="Scroll to the next section"
-          >
-            <span className="sc-cue-line" aria-hidden="true" />
-            <span className="sc-kicker">Scroll</span>
-          </button>
-          <p className="sc-kicker hidden text-right sm:block">
-            {MARQUES.length} marques
-            <span className="mx-2" aria-hidden="true">
-              /
-            </span>
-            {MARQUES.length * 2} cars
-            <span className="mx-2" aria-hidden="true">
-              /
-            </span>
-            1903 — 2026
-          </p>
+          <div className="sc-plate relative order-2 aspect-[16/10] w-full overflow-hidden border border-[#f4f1ea]/12 lg:order-2 lg:aspect-[16/11] lg:flex-1">
+            {MARQUES.map((item, index) => (
+              <HeroSlide
+                key={item.id}
+                marque={item}
+                index={index}
+                total={total}
+                progress={progress}
+                reduced={reduced}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </section>
@@ -451,21 +430,16 @@ function BrandMarquee() {
 /* ----------------------------------------------------------------- approach */
 
 function Approach() {
-  const ref = useRef(null);
-  const reduced = useReducedMotion();
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
-  const y = useTransform(scrollYProgress, [0, 1], ['-8%', reduced ? '-8%' : '8%']);
-
   return (
-    <section id="approach" ref={ref} className="relative">
-      <div className="relative isolate h-[58svh] overflow-hidden sm:h-[68svh]">
-        <motion.img
-          style={{ y }}
-          src="/marques/bugatti-1.webp"
-          alt="A Bugatti Chiron with its W16 engine cover open"
-          className="absolute inset-0 -z-20 h-[116%] w-full object-cover object-[50%_42%]"
-        />
-        <Vignette />
+    <section id="approach" className="relative">
+      <div className="px-5 sm:px-8">
+        <div className="sc-plate relative mx-auto aspect-[16/9] w-full max-w-[1120px] overflow-hidden border border-[#f4f1ea]/12">
+          <img
+            src="/marques/bentley-3.avif"
+            alt="A black Bentley Continental GT from the front three-quarter"
+            className="h-full w-full object-contain p-[2.5%]"
+          />
+        </div>
       </div>
 
       <div className="mx-auto w-full max-w-[1600px] px-5 pt-14 pb-24 sm:px-8 sm:pt-20 sm:pb-32">
@@ -483,7 +457,7 @@ function Approach() {
 
           <div>
             <Reveal>
-              <p className="sc-body max-w-[520px] !text-[15.5px]">
+              <p className="sc-body max-w-[540px] !text-[16.5px]">
                 A badge tells you where a car was built. It does not tell you why it exists. Each
                 house below is here for one idea it has defended for decades — a suspension layout,
                 an engine architecture, a way of stitching a seat — and the two cars that make the
@@ -492,17 +466,17 @@ function Approach() {
             </Reveal>
 
             <Reveal delay={0.1}>
-              <dl className="mt-10 grid max-w-[420px] grid-cols-3 gap-5 border-t border-[#f4f1ea]/15 pt-6">
+              <dl className="mt-10 grid max-w-[440px] grid-cols-3 gap-5 border-t border-[#f4f1ea]/15 pt-6">
                 {[
                   [String(MARQUES.length), 'Marques'],
                   [String(MARQUES.length * 2), 'Cars'],
                   ['123', 'Years covered'],
                 ].map(([value, label]) => (
                   <div key={label}>
-                    <dt className="sc-serif text-[clamp(1.7rem,3vw,2.4rem)] leading-none text-[#f7f4ee]">
+                    <dt className="sc-serif text-[clamp(1.8rem,3.2vw,2.6rem)] leading-none text-[#f7f4ee]">
                       {value}
                     </dt>
-                    <dd className="sc-kicker mt-2 !text-[9.5px] !tracking-[0.24em]">{label}</dd>
+                    <dd className="sc-kicker mt-2 !text-[10px] !tracking-[0.24em]">{label}</dd>
                   </div>
                 ))}
               </dl>
@@ -596,172 +570,223 @@ function BrandMark({ marque, className = '' }) {
   );
 }
 
-function MarqueChapter({ marque, index }) {
-  const ref = useRef(null);
-  const reduced = useReducedMotion();
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end end'] });
-  const count = marque.images.length;
-  const featureCount = marque.features.length;
-  const [active, setActive] = useState(0);
-  const [activeFeature, setActiveFeature] = useState(0);
-
-  /* The stage is sticky for the whole section: the first third of the scroll
-     walks through the photographs of this house, the rest opens its feature
-     points one at a time. */
-  useMotionValueEvent(scrollYProgress, 'change', (value) => {
-    const image = Math.min(count - 1, Math.floor(value * count));
-    const feature = Math.min(
-      featureCount - 1,
-      Math.max(0, Math.floor(((value - 0.34) / 0.66) * featureCount)),
-    );
-    setActive((current) => (current === image ? current : image));
-    setActiveFeature((current) => (current === feature ? current : feature));
+/* One photograph of the house, held whole inside its plate. `object-contain`
+   keeps the car complete whatever shape the photograph is; each frame fades up
+   and settles just before its turn, so the picture changes on the same beat as
+   the words beside it. */
+function ChapterFrame({ image, i, count, progress, reduced, priority }) {
+  const reveal = useTransform(progress, (value) => {
+    const position = value * count;
+    if (reduced) return position >= i - 0.5 && position < i + 0.5 ? 1 : 0;
+    return Math.min(1, Math.max(0, (position - (i - 0.18)) / 0.18));
   });
 
-  const markY = useTransform(scrollYProgress, [0, 0.28], [reduced ? 0 : 22, 0]);
-  const markOpacity = useTransform(scrollYProgress, [0, 0.14], [0, 1]);
-  const stageY = useTransform(scrollYProgress, [0, 1], [reduced ? 0 : 16, reduced ? 0 : -16]);
-  const barWidth = useTransform(scrollYProgress, [0, 1], ['0%', '100%']);
+  const scale = useTransform(reveal, [0, 1], [1.06, 1]);
+  const y = useTransform(reveal, [0, 1], [26, 0]);
 
   return (
-    <section
-      id={`marque-${marque.id}`}
-      ref={ref}
-      className="relative"
-      style={{ height: `${120 + count * 30}svh` }}
+    <motion.div
+      style={{ opacity: reveal, scale, y }}
+      className="absolute inset-[2.5%] will-change-transform"
     >
-      <div className="sticky top-0 flex h-[100svh] items-center overflow-hidden px-5 pt-24 pb-10 sm:px-8">
-        <div className="mx-auto grid w-full max-w-[1360px] items-center gap-8 lg:grid-cols-[1.08fr_0.92fr] lg:gap-14">
-          {/* photographs of this house ------------------------------------- */}
-          <motion.div style={{ y: stageY }}>
-            <div className="relative aspect-[16/10] overflow-hidden border border-[#f4f1ea]/15 bg-[#0b0c0d]">
-              {marque.images.map((image, i) => (
-                <motion.img
-                  key={image.src}
-                  src={image.src}
-                  alt={image.alt}
-                  loading={index < 2 ? 'eager' : 'lazy'}
-                  animate={{ opacity: i === active ? 1 : 0, scale: i === active ? 1 : 1.035 }}
-                  transition={{ duration: 0.7, ease: EASE }}
-                  className="absolute inset-0 h-full w-full object-cover"
-                />
-              ))}
+      <img
+        src={image.src}
+        alt={image.alt}
+        loading={priority ? 'eager' : 'lazy'}
+        decoding="async"
+        className="h-full w-full object-contain"
+      />
+    </motion.div>
+  );
+}
 
-              <div
-                aria-hidden="true"
-                className="pointer-events-none absolute inset-x-0 top-0 h-[42%] bg-gradient-to-b from-[#050607] via-[#050607]/40 to-transparent"
-              />
+/* A frame's own tick: its number, and a hairline that fills exactly as far as
+   the scroll has come through that frame. */
+function FrameTick({ i, count, progress, active, label, onClick }) {
+  const fill = useTransform(progress, (value) => {
+    const position = value * count;
+    return Math.min(1, Math.max(0, position - i));
+  });
 
-              <div className="pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 bg-gradient-to-t from-[#050607]/80 to-transparent px-4 pt-10 pb-3">
-                <p className="sc-kicker !text-[8.5px] !tracking-[0.2em] !text-[#f4f1ea]/75">
-                  {marque.images[active].caption}
-                </p>
-                <p className="sc-kicker !text-[8.5px] !tracking-[0.2em]">
-                  {pad(active + 1)}
-                  <span className="mx-1 text-[#f4f1ea]/30">/</span>
-                  {pad(count)}
-                </p>
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-label={label}
+      aria-current={active ? 'true' : undefined}
+      className="group flex items-center gap-2 py-1.5"
+    >
+      <span
+        className={`font-lemon text-[11px] tracking-[0.1em] transition-colors duration-500 ${
+          active ? 'text-[#e8ca90]' : 'text-[#f4f1ea]/40 group-hover:text-[#f4f1ea]/85'
+        }`}
+      >
+        {pad(i + 1)}
+      </span>
+      <span className="relative block h-[2px] w-8 overflow-hidden bg-[#f4f1ea]/15 sm:w-10">
+        <motion.span style={{ scaleX: fill }} className="absolute inset-0 origin-left bg-[#c9a15a]" />
+      </span>
+    </button>
+  );
+}
+
+const CHAPTER_TEXT = {
+  enter: { opacity: 0 },
+  centre: {
+    opacity: 1,
+    transition: { duration: 0.3, ease: EASE, staggerChildren: 0.1, delayChildren: 0.05 },
+  },
+};
+
+const chapterLine = (reduced) => ({
+  enter: { opacity: 0, y: reduced ? 0 : 22 },
+  centre: { opacity: 1, y: 0, transition: { duration: 0.75, ease: EASE } },
+});
+
+function MarqueChapter({ marque, index }) {
+  const stageRef = useRef(null);
+  const reduced = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: stageRef, offset: ['start start', 'end end'] });
+  const count = marque.images.length;
+  const [active, setActive] = useState(0);
+
+  /* One frame per stretch of scroll: the picture and the words turn together. */
+  useMotionValueEvent(scrollYProgress, 'change', (value) => {
+    const next = Math.min(count - 1, Math.max(0, Math.floor(value * count)));
+    setActive((current) => (current === next ? current : next));
+  });
+
+  const barScale = useTransform(scrollYProgress, [0, 1], [0, 1]);
+
+  const gotoFrame = (frameIndex) => {
+    const el = stageRef.current;
+    if (!el) return;
+    const distance = el.offsetHeight - window.innerHeight;
+    window.scrollTo({
+      top: el.offsetTop + ((frameIndex + 0.4) / count) * distance,
+      behavior: 'smooth',
+    });
+  };
+
+  const frame = marque.images[active];
+
+  return (
+    <section id={`marque-${marque.id}`} className="relative">
+      <div ref={stageRef} className="relative" style={{ height: `${118 + count * 62}svh` }}>
+        <div className="sticky top-0 flex h-[100svh] items-center overflow-hidden px-5 pt-[calc(72px_+_3svh)] pb-6 sm:px-8 sm:pb-8">
+          <div className="mx-auto grid w-full max-w-[1560px] items-center gap-7 lg:grid-cols-[minmax(0,1.52fr)_minmax(0,1fr)] lg:gap-16">
+            <div className="min-w-0">
+              <div className="sc-plate relative h-[37svh] overflow-hidden border border-[#f4f1ea]/12 sm:h-[45svh] lg:h-[calc(100svh_-_262px)] lg:max-h-[610px]">
+                {marque.images.map((item, i) => (
+                  <ChapterFrame
+                    key={item.src}
+                    image={item}
+                    i={i}
+                    count={count}
+                    progress={scrollYProgress}
+                    reduced={reduced}
+                    priority={i === 0}
+                  />
+                ))}
+              </div>
+
+              <div className="mt-3.5 flex flex-wrap items-center justify-between gap-x-5 gap-y-2">
+                <p className="sc-kicker !text-[9.5px] !tracking-[0.22em]">{frame.caption}</p>
+                <div className="flex items-center gap-3">
+                  {marque.images.map((item, i) => (
+                    <FrameTick
+                      key={item.src}
+                      i={i}
+                      count={count}
+                      progress={scrollYProgress}
+                      active={i === active}
+                      label={`Show frame ${i + 1} of ${marque.name}`}
+                      onClick={() => gotoFrame(i)}
+                    />
+                  ))}
+                </div>
+              </div>
+
+              <div className="mt-2 h-px w-full bg-[#f4f1ea]/10">
+                <motion.div style={{ scaleX: barScale }} className="h-px origin-left bg-[#c9a15a]/60" />
               </div>
             </div>
 
-            {/* the other previews of the same house */}
-            <div className="mt-2.5 flex gap-2">
-              {marque.images.map((image, i) => (
-                <button
-                  key={`${image.src}-preview`}
-                  type="button"
-                  onClick={() => setActive(i)}
-                  aria-label={`Show ${image.caption}`}
-                  className={`group relative aspect-[16/10] flex-1 overflow-hidden border transition-colors duration-500 ${
-                    i === active
-                      ? 'border-[#c9a15a]/70'
-                      : 'border-[#f4f1ea]/15 hover:border-[#f4f1ea]/40'
-                  }`}
+            <div className="flex min-w-0 flex-col lg:self-stretch">
+              <div className="flex items-end gap-4 border-b border-[#f4f1ea]/12 pb-4">
+                <BrandMark
+                  marque={marque}
+                  className="max-h-6 max-w-[74px] opacity-80 sm:max-h-7 sm:max-w-[90px]"
+                />
+                <div className="min-w-0">
+                  <h2 className="font-lemon truncate text-[clamp(1.75rem,3.05vw,2.7rem)] leading-none tracking-[0.04em] text-[#f9f6f0] uppercase">
+                    {marque.name}
+                  </h2>
+                  <p className="mt-2.5 text-[10.5px] tracking-[0.22em] text-[#f4f1ea]/45 uppercase">
+                    Founded {marque.founded}
+                    <span className="mx-1.5" aria-hidden="true">
+                      /
+                    </span>
+                    {marque.city}, {marque.country}
+                  </p>
+                </div>
+                <span className="sc-kicker ml-auto hidden shrink-0 !text-[10px] lg:inline">
+                  {pad(index + 1)} / {pad(MARQUES.length)}
+                </span>
+              </div>
+
+              <div className="flex flex-1 items-center py-7">
+                <motion.div
+                  key={`${marque.id}-${active}`}
+                  variants={CHAPTER_TEXT}
+                  initial="enter"
+                  animate="centre"
+                  className="w-full"
                 >
-                  <img
-                    src={image.src}
-                    alt=""
-                    loading="lazy"
-                    className={`h-full w-full object-cover transition-all duration-500 ${
-                      i === active ? 'opacity-100' : 'opacity-40 group-hover:opacity-80'
-                    }`}
-                  />
-                </button>
-              ))}
+                    <motion.p variants={chapterLine(reduced)} className="sc-kicker !text-[10px]">
+                      {marque.tagline}
+                    </motion.p>
+                    <motion.h3
+                      variants={chapterLine(reduced)}
+                      className="sc-serif mt-3 text-[clamp(1.95rem,3.3vw,3rem)] leading-[1.03] text-[#f7f4ee]"
+                    >
+                      {frame.title}
+                    </motion.h3>
+                    <motion.p
+                      variants={chapterLine(reduced)}
+                      className="sc-body mt-3 max-w-[480px] !text-[clamp(0.98rem,1.06vw,1.12rem)] !leading-[1.72]"
+                    >
+                      {frame.note}
+                    </motion.p>
+                </motion.div>
+              </div>
+
+              <div className="mt-6 flex items-center justify-between gap-4 border-t border-[#f4f1ea]/12 pt-4">
+                <p className="font-lemon text-[13px] tracking-[0.12em] text-[#f4f1ea]/75">
+                  {pad(active + 1)}
+                  <span className="mx-1.5 text-[#f4f1ea]/30">/</span>
+                  {pad(count)}
+                </p>
+                <p className="sc-kicker !text-[9.5px] !tracking-[0.22em]">Scroll — one frame at a time</p>
+              </div>
             </div>
-
-            <div className="mt-2 h-px w-full bg-[#f4f1ea]/15">
-              <motion.div style={{ width: barWidth }} className="h-px bg-[#c9a15a]/80" />
-            </div>
-          </motion.div>
-
-          {/* the argument of this house ------------------------------------ */}
-          <div>
-            <motion.div style={{ y: markY, opacity: markOpacity }} className="flex items-center gap-4">
-              <BrandMark marque={marque} className="max-h-9 max-w-[124px] opacity-85 sm:max-h-11" />
-              <span className="h-px flex-1 bg-[#f4f1ea]/15" />
-              <span className="sc-kicker !text-[9px]">
-                {pad(index + 1)}
-                <span className="mx-1.5 text-[#f4f1ea]/25">/</span>
-                {pad(MARQUES.length)}
-              </span>
-            </motion.div>
-
-            <h2
-              className="sc-brand mt-5 text-[#f7f4ee]"
-              style={{ fontSize: 'clamp(1.6rem, 3.2vw, 2.7rem)' }}
-            >
-              {marque.name}
-            </h2>
-            <p className="sc-serif mt-2 text-[clamp(0.98rem,1.7vw,1.3rem)] italic text-[#d8b478]">
-              {marque.tagline}
-            </p>
-            <p className="sc-body mt-4 max-w-[470px] !text-[13px] !leading-[1.7]">{marque.intro}</p>
-
-            <div className="mt-4 flex flex-wrap items-baseline gap-x-5 gap-y-1 border-y border-[#f4f1ea]/12 py-2.5">
-              <span className="sc-kicker !text-[8.5px]">{marque.city}</span>
-              <span className="sc-kicker !text-[8.5px]">{marque.country}</span>
-              <span className="sc-kicker !text-[8.5px]">Founded {marque.founded}</span>
-            </div>
-
-            <ol className="hidden sm:block">
-              {marque.features.map((feature, i) => {
-                const open = i === activeFeature;
-                return (
-                  <li
-                    key={feature.title}
-                    className={`border-b border-[#f4f1ea]/12 py-3 transition-opacity duration-500 ${
-                      open ? 'opacity-100' : 'opacity-40'
-                    }`}
-                  >
-                    <div className="flex items-baseline gap-3">
-                      <span
-                        className={`sc-kicker !text-[9px] !tracking-[0.2em] transition-colors duration-500 ${
-                          open ? '!text-[#d8b478]' : ''
-                        }`}
-                      >
-                        {pad(i + 1)}
-                      </span>
-                      <h3 className="sc-serif text-[clamp(1rem,1.6vw,1.2rem)] leading-tight text-[#f7f4ee]">
-                        {feature.title}
-                      </h3>
-                    </div>
-                    {open ? (
-                      <motion.p
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: 'auto' }}
-                        transition={{ duration: 0.45, ease: EASE }}
-                        className="sc-body mt-2 max-w-[430px] overflow-hidden pl-7 !text-[12.5px] !leading-[1.65]"
-                      >
-                        {feature.body}
-                      </motion.p>
-                    ) : null}
-                  </li>
-                );
-              })}
-            </ol>
           </div>
         </div>
+      </div>
+
+      <div className="mx-auto w-full max-w-[820px] px-5 pt-10 pb-24 text-center sm:px-8 sm:pb-32">
+        <Reveal>
+          <p className="sc-body text-[clamp(1.08rem,1.55vw,1.26rem)] !leading-[1.75] !text-[#eae6de]">
+            {marque.intro}
+          </p>
+        </Reveal>
+        <Reveal delay={0.06}>
+          <div className="mt-7 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 border-t border-[#f4f1ea]/12 pt-5">
+            <span className="sc-kicker !text-[9.5px]">{marque.city}</span>
+            <span className="sc-kicker !text-[9.5px]">{marque.country}</span>
+            <span className="sc-kicker !text-[9.5px]">Founded {marque.founded}</span>
+          </div>
+        </Reveal>
       </div>
     </section>
   );
@@ -774,18 +799,17 @@ function MarqueDetail({ marque, index }) {
     <section className="px-5 pt-20 pb-24 sm:px-8 sm:pb-32">
       <div className="mx-auto w-full max-w-[1600px]">
         <Reveal>
-          <div className="relative h-[34svh] overflow-hidden bg-[#0f1113] sm:h-[46svh]">
+          <div className="sc-plate relative h-[40svh] overflow-hidden border border-[#f4f1ea]/12 sm:h-[52svh]">
             <img
               src={marque.images[1].src}
               alt={marque.images[1].alt}
               loading="lazy"
-              className="h-full w-full object-cover"
+              className="h-full w-full object-contain p-[2%]"
             />
-            <div aria-hidden="true" className="sc-vignette absolute inset-0" />
-            <p className="sc-kicker absolute bottom-4 left-4 !text-[#f4f1ea]/70">
-              {marque.images[1].caption}
-            </p>
           </div>
+          <p className="sc-kicker mt-3 !text-[9.5px] !tracking-[0.22em]">
+            {marque.images[1].caption}
+          </p>
         </Reveal>
 
         <div className="mt-14 grid gap-14 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
@@ -946,7 +970,7 @@ function Closing() {
           </h2>
         </Reveal>
         <Reveal delay={0.12}>
-          <p className="sc-body mx-auto mt-7 max-w-[520px]">
+          <p className="sc-body mx-auto mt-7 max-w-[560px] !text-[16.5px]">
             The showroom keeps every figure, every colour and every detail shot — and you can put up
             to three cars side by side.
           </p>
@@ -973,7 +997,7 @@ function ShowcaseFooter() {
     <footer className="border-t border-[#f4f1ea]/12 px-5 py-12 sm:px-8">
       <div className="mx-auto flex w-full max-w-[1600px] flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
         <div>
-          <p className="font-brand text-[22px] leading-none text-[#f4f1ea]">goldenline</p>
+          <p className="font-brand text-[22px] leading-none text-[#f4f1ea]">Goldenline</p>
           <p className="mt-4 max-w-[460px] text-[12px] leading-relaxed text-[#f4f1ea]/45">
             Figures are manufacturer press data for the current generation of each car, rounded the
             way the maker publishes them. Prices are starting figures before options and local
@@ -983,7 +1007,7 @@ function ShowcaseFooter() {
         </div>
         <div className="max-w-[380px] sm:text-right">
           <p className="text-[12px] leading-relaxed text-[#f4f1ea]/45">
-            Photography from Wikimedia Commons contributors, cropped and darkened for this layout
+            Photography from Wikimedia Commons contributors, resized and re-encoded for this layout
             and used here for an editorial demo. Every car, name, badge and image belongs to its
             manufacturer.
           </p>

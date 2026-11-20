@@ -87,7 +87,7 @@ export default function SiteHeader({
               href="#/showroom"
               className="truncate font-brand text-[26px] leading-none text-ink sm:text-[36px] lg:text-[40px]"
             >
-              goldenline<span className="text-gold">.</span>
+              Goldenline<span className="text-gold">.</span>
             </a>
           </div>
 

@@ -29,19 +29,28 @@ export const MARQUES = [
     ],
     images: [
       {
-        src: '/marques/rolls-1.webp',
+        src: '/marques/rolls-2.avif',
+        alt: 'A pale blue Rolls-Royce Spectre in profile',
+        title: 'One unbroken arc',
+        caption: 'Rolls-Royce Spectre, in profile.',
+        note:
+          'From the A-pillar to the tail there is no seam at all. The roof is drawn as one stroke and left to do the work.',
+      },
+      {
+        src: '/marques/rolls-1.avif',
         alt: 'A pale blue Rolls-Royce Spectre in a studio',
+        title: 'Spectre, in the studio',
         caption: 'Rolls-Royce Spectre, 2023.',
+        note:
+          'Pale blue under studio lights: the first Rolls-Royce designed as an electric car from the start, with a grille wide enough to be read from across the hall.',
       },
       {
-        src: '/marques/rolls-2.webp',
-        alt: 'Coach door and leather trim of a Rolls-Royce',
-        caption: 'Coach door, hand-finished hide.',
-      },
-      {
-        src: '/marques/rolls-royce-3.webp',
+        src: '/marques/rolls-royce-3.avif',
         alt: 'A dark blue Rolls-Royce Spectre from the front three-quarter',
+        title: 'The Pantheon, lit',
         caption: 'Rolls-Royce Spectre, front three-quarter.',
+        note:
+          'The grille is the oldest logo in the business — upright, polished, and now lit from within. Everything behind it is deliberately quiet.',
       },
     ],
     features: [
@@ -100,19 +109,28 @@ export const MARQUES = [
     ],
     images: [
       {
-        src: '/marques/bentley-1.webp',
+        src: '/marques/bentley-1.avif',
         alt: 'A dark blue Bentley Continental GT parked',
+        title: 'Continental GT, at rest',
         caption: 'Bentley Continental GT, fourth generation.',
+        note:
+          'Dark blue over brightwork: the modern Bentley silhouette — long bonnet, hard shoulder, and a roofline that ends in a fastback.',
       },
       {
-        src: '/marques/bentley-2.webp',
+        src: '/marques/bentley-2.avif',
         alt: 'A pale blue Bentley Bentayga from the front three-quarter',
+        title: 'Bentayga EWB',
         caption: 'Bentley Bentayga EWB.',
+        note:
+          'The tall one. Bentley’s SUV carries the same grille and the same hand-finished cabin, raised a hand’s width off the road.',
       },
       {
-        src: '/marques/bentley-3.webp',
-        alt: 'A dark blue Bentley Continental GT from the front three-quarter',
-        caption: 'Continental GT, front three-quarter.',
+        src: '/marques/bentley-3.avif',
+        alt: 'A grey Bentley Continental GT in profile',
+        title: 'Continental GT, in profile',
+        caption: 'Continental GT, in profile.',
+        note:
+          'Seen flat from the side, the proportions explain the car: the wheels sit at the corners and the cabin is set well back.',
       },
     ],
     features: [
@@ -171,19 +189,28 @@ export const MARQUES = [
     ],
     images: [
       {
-        src: '/marques/aston-1.webp',
+        src: '/marques/aston-1.avif',
         alt: 'A grey Aston Martin DB12 from the front three-quarter',
+        title: 'DB12, head on',
         caption: 'Aston Martin DB12, 2023.',
+        note:
+          'The grille sits low and wide, the headlights pull the nose down the road, and the haunch over the rear wheel does the rest.',
       },
       {
-        src: '/marques/aston-2.webp',
+        src: '/marques/aston-2.avif',
         alt: 'A grey Aston Martin Vanquish on a forecourt',
+        title: 'Vanquish',
         caption: 'Aston Martin Vanquish, 2024.',
+        note:
+          'The flagship, back after a gap: a carbon body over a twin-turbo V12, drawn with the long tail of the One-77.',
       },
       {
-        src: '/marques/aston-martin-3.webp',
+        src: '/marques/aston-martin-3.avif',
         alt: 'A silver Aston Martin DB12 from the front three-quarter',
+        title: 'DB12, in silver',
         caption: 'Aston Martin DB12, front three-quarter.',
+        note:
+          'Silver flatters this shape. The surfacing is calm enough that light does the describing instead of a crease.',
       },
     ],
     features: [
@@ -242,19 +269,28 @@ export const MARQUES = [
     ],
     images: [
       {
-        src: '/cars/porsche-911.webp',
-        alt: 'A silver Porsche 911 Carrera',
+        src: '/marques/porsche-3.avif',
+        alt: 'A white Porsche 911 Carrera on a street',
+        title: '911, on the street',
         caption: 'Porsche 911 Carrera, 992 generation.',
+        note:
+          'White and unbothered, parked among ordinary cars, which is where most of them spend their lives.',
       },
       {
         src: '/cars/porsche-taycan.webp',
         alt: 'A pale Porsche Taycan in a studio',
+        title: 'Taycan',
         caption: 'Porsche Taycan.',
+        note:
+          'The electric one: low nose, cut-off tail and no grille at all — Porsche’s aerodynamic argument with four doors.',
       },
       {
-        src: '/marques/porsche-3.webp',
-        alt: 'A white Porsche 911 Carrera on a street',
+        src: '/cars/porsche-911.webp',
+        alt: 'A silver Porsche 911 Carrera',
+        title: '911 Carrera',
         caption: 'Porsche 911 Carrera, 992 generation.',
+        note:
+          'The same silhouette since 1963, revised. Engine behind the axle, tail sloping away, and a roofline that has never needed replacing.',
       },
     ],
     features: [
@@ -313,19 +349,28 @@ export const MARQUES = [
     ],
     images: [
       {
-        src: '/cars/bmw-5.webp',
-        alt: 'A BMW 5 Series in profile',
-        caption: 'BMW 5 Series, eighth generation.',
+        src: '/marques/bmw-1.avif',
+        alt: 'A Brooklyn Grey BMW M5 from the front three-quarter',
+        title: 'M5, under the lights',
+        caption: 'BMW M5, G90 generation.',
+        note:
+          'Brooklyn Grey over black: the G90 M5 with its arches pulled wide, the kidney grille blanked behind glass and a charge port in the front wing.',
       },
       {
         src: '/cars/bmw-ix.webp',
         alt: 'A BMW iX electric SUV',
+        title: 'iX',
         caption: 'BMW iX.',
+        note:
+          'BMW’s electric SUV, the tall kidney blanked off and the cabin pushed forward over the front axle.',
       },
       {
-        src: '/marques/bmw-3.webp',
+        src: '/marques/bmw-3.avif',
         alt: 'A yellow BMW M5 from the front three-quarter',
+        title: 'M5, G90',
         caption: 'BMW M5, G90 generation.',
+        note:
+          'Yellow, four doors and a plug: the first M5 with a hybrid V8, still wearing the widest arches in the range.',
       },
     ],
     features: [
@@ -384,19 +429,28 @@ export const MARQUES = [
     ],
     images: [
       {
-        src: '/marques/ferrari-1.webp',
+        src: '/marques/ferrari-1.avif',
         alt: 'A white Ferrari 12Cilindri from the front',
+        title: '12Cilindri, head on',
         caption: 'Ferrari 12Cilindri, 2024.',
+        note:
+          'Maranello’s front-engined V12 coupe, drawn with a black band across the nose that reads as a visor.',
       },
       {
-        src: '/marques/ferrari-2.webp',
+        src: '/marques/ferrari-2.avif',
         alt: 'A grey Ferrari Purosangue from the rear three-quarter',
+        title: 'Purosangue',
         caption: 'Ferrari Purosangue.',
+        note:
+          'The first four-door Ferrari, and the first with the engine behind the front axle and rear doors hinged at the back.',
       },
       {
-        src: '/marques/ferrari-3.webp',
+        src: '/marques/ferrari-3.avif',
         alt: 'A dark green Ferrari 12Cilindri from the front three-quarter',
+        title: '12Cilindri, three-quarter',
         caption: 'Ferrari 12Cilindri, front three-quarter.',
+        note:
+          'Dark green over tan: the long bonnet ends well ahead of the driver, the way a front-engined Ferrari should.',
       },
     ],
     features: [
@@ -455,19 +509,28 @@ export const MARQUES = [
     ],
     images: [
       {
-        src: '/marques/lambo-1.webp',
+        src: '/marques/lambo-1.avif',
         alt: 'A white Lamborghini Revuelto from the front',
+        title: 'Revuelto, head on',
         caption: 'Lamborghini Revuelto, 2023.',
+        note:
+          'The V12 hybrid flagship: a wedge with the engine still behind the seats and a nose cut low to the road.',
       },
       {
-        src: '/marques/lambo-2.webp',
+        src: '/marques/lambo-2.avif',
         alt: 'A green Lamborghini Urus SE',
+        title: 'Urus SE',
         caption: 'Lamborghini Urus SE.',
+        note:
+          'Green, tall and now hybrid. The Urus is the car that pays for Sant’Agata’s supercars, and it is not shy about it.',
       },
       {
-        src: '/marques/lamborghini-3.webp',
-        alt: 'A white Lamborghini Revuelto from the front three-quarter',
-        caption: 'Lamborghini Revuelto, front three-quarter.',
+        src: '/marques/lamborghini-3.avif',
+        alt: 'A white Lamborghini Revuelto from behind',
+        title: 'Revuelto, from behind',
+        caption: 'Revuelto, from behind.',
+        note:
+          'The tail is where Lamborghini lets go: a diffuser the size of a door and two hexagonal pipes set high in the bodywork.',
       },
     ],
     features: [
@@ -526,19 +589,28 @@ export const MARQUES = [
     ],
     images: [
       {
-        src: '/marques/pagani-1.webp',
+        src: '/marques/pagani-1.avif',
         alt: 'A blue Pagani Utopia at a motor show',
+        title: 'Utopia',
         caption: 'Pagani Utopia, 2022.',
+        note:
+          'Horacio Pagani’s third act and his most restrained: exposed carbon, active aero, and a manual gearbox on the options list.',
       },
       {
-        src: '/marques/pagani-2.webp',
+        src: '/marques/pagani-2.avif',
         alt: 'A Pagani Huayra BC Roadster',
+        title: 'Huayra BC Roadster',
         caption: 'Pagani Huayra BC Roadster.',
+        note:
+          'The track-focused Huayra with the roof off — active flaps at each corner and a carbon body with nothing added for comfort.',
       },
       {
-        src: '/marques/pagani-3.webp',
+        src: '/marques/pagani-3.avif',
         alt: 'A blue Pagani Utopia from the side',
+        title: 'Utopia, in profile',
         caption: 'Pagani Utopia, side profile.',
+        note:
+          'From the side the cab-forward shape shows: the wheels sit outboard and the cabin is pushed up over the front axle.',
       },
     ],
     features: [
@@ -597,19 +669,28 @@ export const MARQUES = [
     ],
     images: [
       {
-        src: '/marques/koenigsegg-1.webp',
+        src: '/marques/koenigsegg-1.avif',
         alt: 'A white Koenigsegg with orange interior trim',
+        title: 'Jesko',
         caption: 'Koenigsegg Jesko.',
+        note:
+          'Ängelholm’s answer to the hypercar question, built around a nine-speed gearbox with seven clutches and a carbon tub.',
       },
       {
-        src: '/marques/koenigsegg-2.webp',
-        alt: 'The cabin and door of a green Koenigsegg Gemera',
-        caption: 'Gemera door and cabin.',
+        src: '/marques/koenigsegg-2.avif',
+        alt: 'A white Koenigsegg Jesko with its doors raised',
+        title: 'Jesko, doors raised',
+        caption: 'Koenigsegg Jesko, doors raised.',
+        note:
+          'The dihedral doors swing up and out with a slice of roof, which is the easiest way into a tub this shallow.',
       },
       {
-        src: '/marques/koenigsegg-3.webp',
+        src: '/marques/koenigsegg-3.avif',
         alt: 'A white Koenigsegg Jesko from the front three-quarter',
+        title: 'Jesko, three-quarter',
         caption: 'Koenigsegg Jesko, front three-quarter.',
+        note:
+          'White over orange: the scheme Koenigsegg uses for press cars, and the clearest view of the rear wing.',
       },
     ],
     features: [
@@ -668,19 +749,28 @@ export const MARQUES = [
     ],
     images: [
       {
-        src: '/marques/bugatti-1.webp',
-        alt: 'A dark blue Bugatti Chiron with blue accents',
-        caption: 'Bugatti Chiron, 2016.',
+        src: '/marques/bugatti-3.avif',
+        alt: 'A pale blue Bugatti Tourbillon in profile',
+        title: 'Tourbillon, in profile',
+        caption: 'Tourbillon, in profile.',
+        note:
+          'The Molsheim line: horseshoe grille at the front, one continuous arc over the cabin, and a tail cut off flat.',
       },
       {
-        src: '/marques/bugatti-2.webp',
+        src: '/marques/bugatti-2.avif',
         alt: 'A pale blue Bugatti Tourbillon at a show',
+        title: 'Tourbillon',
         caption: 'Bugatti Tourbillon, 2024.',
+        note:
+          'The Chiron’s successor and the first Bugatti in decades without a W16 — a naturally aspirated V16 now sits behind the seats.',
       },
       {
-        src: '/marques/bugatti-3.webp',
-        alt: 'A pale blue Bugatti Tourbillon from the front three-quarter',
-        caption: 'Bugatti Tourbillon, front three-quarter.',
+        src: '/marques/bugatti-1.avif',
+        alt: 'A dark blue Bugatti Chiron with blue accents',
+        title: 'Chiron',
+        caption: 'Bugatti Chiron, 2016.',
+        note:
+          'The car that broke 300 mph: a quad-turbo W16 behind the driver and a body shaped by air rather than fashion.',
       },
     ],
     features: [
@@ -739,19 +829,28 @@ export const MARQUES = [
     ],
     images: [
       {
-        src: '/marques/mclaren-1.webp',
+        src: '/marques/mclaren-1.avif',
         alt: 'An orange McLaren 750S from the front three-quarter',
+        title: '750S',
         caption: 'McLaren 750S, 2023.',
+        note:
+          'Woking’s series-production flagship: carbon tub, twin-turbo V8, and a shape sanded down to the minimum.',
       },
       {
-        src: '/marques/mclaren-2.webp',
+        src: '/marques/mclaren-2.avif',
         alt: 'A white McLaren 750S Spider from the rear',
+        title: '750S Spider',
         caption: 'McLaren 750S Spider.',
+        note:
+          'The same car with the roof off. The rear deck changes and almost nothing else, which is the point of the Spider.',
       },
       {
-        src: '/marques/mclaren-3.webp',
-        alt: 'An orange McLaren 750S from the front three-quarter',
-        caption: 'McLaren 750S, front three-quarter.',
+        src: '/marques/mclaren-3.avif',
+        alt: 'A blue McLaren 750S on grass',
+        title: '750S, in blue',
+        caption: 'McLaren 750S, in blue.',
+        note:
+          'Away from the show stand the 750S reads as compact — low, wide and smaller than the numbers suggest.',
       },
     ],
     features: [
@@ -810,19 +909,28 @@ export const MARQUES = [
     ],
     images: [
       {
-        src: '/marques/amg-1.webp',
+        src: '/marques/amg-1.avif',
         alt: 'A grey Mercedes-AMG GT 63 from the front',
+        title: 'GT 63 Pro',
         caption: 'Mercedes-AMG GT 63 Pro, 2024.',
+        note:
+          'Affalterbach’s grand tourer with the track package: long bonnet, set-back cabin, and a V8 under all of it.',
       },
       {
-        src: '/marques/amg-2.webp',
+        src: '/marques/amg-2.avif',
         alt: 'A white Mercedes-AMG GT 63 S',
+        title: 'GT 63 S',
         caption: 'Mercedes-AMG GT 63 S.',
+        note:
+          'A second reading of the same idea in white. The GT is a two-door coupe in a range that is otherwise SUVs and saloons.',
       },
       {
-        src: '/marques/mercedes-amg-3.webp',
+        src: '/marques/mercedes-amg-3.avif',
         alt: 'A blue Mercedes-AMG GT from the front three-quarter',
+        title: 'GT, three-quarter',
         caption: 'Mercedes-AMG GT, front three-quarter.',
+        note:
+          'Blue over black. The grille is the widest AMG makes, and the rear wing is optional — which tells you who buys it.',
       },
     ],
     features: [
@@ -881,19 +989,28 @@ export const MARQUES = [
     ],
     images: [
       {
-        src: '/marques/ford-1.webp',
+        src: '/marques/ford-1.avif',
         alt: 'A black Ford Mustang GT from the rear three-quarter at night',
+        title: 'Mustang GT',
         caption: 'Ford Mustang GT, S650 generation.',
+        note:
+          'The S650 generation: the last pony car standing, still V8, still rear-drive, still priced like a coupe rather than a legend.',
       },
       {
-        src: '/marques/ford-2.webp',
+        src: '/marques/ford-2.avif',
         alt: 'A red Ford Mustang Mach-E from the front three-quarter',
+        title: 'Mustang Mach-E',
         caption: 'Ford Mustang Mach-E.',
+        note:
+          'The electric one that borrowed the name and the badge, then went and earned the sales on its own.',
       },
       {
-        src: '/marques/ford-3.webp',
+        src: '/marques/ford-3.avif',
         alt: 'A grey two-door Ford Bronco from the front',
+        title: 'Bronco',
         caption: 'Ford Bronco, two-door.',
+        note:
+          'The two-door on big tyres: a removable roof, doors that come off, and serious 4x4 hardware underneath.',
       },
     ],
     features: [
@@ -952,19 +1069,28 @@ export const MARQUES = [
     ],
     images: [
       {
-        src: '/marques/chevrolet-1.webp',
+        src: '/marques/chevrolet-1.avif',
         alt: 'A black Chevrolet Corvette Stingray with white stripes',
+        title: 'Corvette Stingray',
         caption: 'Chevrolet Corvette Stingray, C8.',
+        note:
+          'The C8 moved the engine behind the driver after 67 years of doing it the other way, and the proportions changed overnight.',
       },
       {
-        src: '/marques/chevrolet-2.webp',
+        src: '/marques/chevrolet-2.avif',
         alt: 'A blue Chevrolet Corvette Z06 from the front three-quarter',
+        title: 'Corvette Z06',
         caption: 'Chevrolet Corvette Z06.',
+        note:
+          'The flat-plane V8 version: 5.5 litres, a redline past 8,000 rpm, and a soundtrack closer to a race car than a muscle car.',
       },
       {
-        src: '/marques/chevrolet-3.webp',
+        src: '/marques/chevrolet-3.avif',
         alt: 'A red Chevrolet Blazer EV from the front three-quarter',
+        title: 'Blazer EV SS',
         caption: 'Chevrolet Blazer EV SS.',
+        note:
+          'Red, and electric: Chevrolet’s performance SUV wearing the SS badge that used to mean a small-block V8.',
       },
     ],
     features: [
@@ -1023,19 +1149,28 @@ export const MARQUES = [
     ],
     images: [
       {
-        src: '/marques/maserati-1.webp',
+        src: '/marques/maserati-1.avif',
         alt: 'A white Maserati GranTurismo Trofeo from the front three-quarter',
+        title: 'GranTurismo Trofeo',
         caption: 'Maserati GranTurismo Trofeo.',
+        note:
+          'The name came back in 2023 with a Nettuno-derived V6 and a body that keeps the long-bonnet proportions of the original.',
       },
       {
-        src: '/marques/maserati-2.webp',
+        src: '/marques/maserati-2.avif',
         alt: 'A white Maserati MC20 with its butterfly doors open',
+        title: 'MC20',
         caption: 'Maserati MC20, butterfly doors open.',
+        note:
+          'Butterfly doors open on a carbon tub. The MC20 is Maserati building its own supercar again rather than borrowing one.',
       },
       {
-        src: '/marques/maserati-3.webp',
+        src: '/marques/maserati-3.avif',
         alt: 'A grey Maserati Grecale from the front three-quarter',
+        title: 'Grecale',
         caption: 'Maserati Grecale.',
+        note:
+          'The volume model: a smaller, cheaper Maserati, and now the one that keeps the lights on in Modena.',
       },
     ],
     features: [

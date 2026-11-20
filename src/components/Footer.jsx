@@ -8,7 +8,7 @@ export default function Footer() {
       <div className="mx-auto w-full max-w-[1500px] px-4 py-7 text-[12.5px] leading-relaxed text-muted sm:px-6 lg:px-8">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
           <p className="font-brand text-[24px] leading-none text-ink">
-            goldenline<span className="text-gold">.</span>
+            Goldenline<span className="text-gold">.</span>
           </p>
           <p className="max-w-[560px]">
             Specifications are US-market figures for the 2025 model year, from manufacturer press
