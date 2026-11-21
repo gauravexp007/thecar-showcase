@@ -154,11 +154,58 @@ const HERO_QUOTES = [
 
 /* The wall: the index houses in their order, then the two marks that sit
    outside it. */
-const LOGO_WALL = [
-  ...MARQUES.map((marque) => ({ id: marque.id, name: marque.name, logo: marque.logo })),
+const MARKS = [
+  { id: 'acura', name: 'Acura', logo: '/logos/si/acura.svg' },
+  { id: 'alfa-romeo', name: 'Alfa Romeo', logo: '/logos/si/alfaromeo.svg' },
+  { id: 'aston-martin', name: 'Aston Martin', logo: '/logos/aston-martin.webp' },
   { id: 'audi', name: 'Audi', logo: '/logos/audi.webp' },
+  { id: 'bentley', name: 'Bentley', logo: '/logos/bentley.webp' },
+  { id: 'bmw', name: 'BMW', logo: '/logos/bmw.webp' },
+  { id: 'bugatti', name: 'Bugatti', logo: '/logos/bugatti.webp' },
+  { id: 'buick', name: 'Buick', logo: '/logos/buick.webp' },
+  { id: 'cadillac', name: 'Cadillac', logo: '/logos/si/cadillac.svg' },
+  { id: 'chevrolet', name: 'Chevrolet', logo: '/logos/chevrolet.webp' },
+  { id: 'citroen', name: 'Citroën', logo: '/logos/si/citroen.svg' },
+  { id: 'dodge', name: 'Dodge', logo: '/logos/dodge.webp' },
+  { id: 'ferrari', name: 'Ferrari', logo: '/logos/ferrari.webp' },
+  { id: 'ford', name: 'Ford', logo: '/logos/ford.webp' },
+  { id: 'gmc', name: 'GMC', logo: '/logos/gmc.webp' },
+  { id: 'honda', name: 'Honda', logo: '/logos/si/honda.svg' },
+  { id: 'hyundai', name: 'Hyundai', logo: '/logos/si/hyundai.svg' },
+  { id: 'infiniti', name: 'Infiniti', logo: '/logos/si/infiniti.svg' },
   { id: 'jaguar', name: 'Jaguar', logo: '/logos/jaguar.webp' },
+  { id: 'jeep', name: 'Jeep', logo: '/logos/si/jeep.svg' },
+  { id: 'kia', name: 'Kia', logo: '/logos/si/kia.svg' },
+  { id: 'koenigsegg', name: 'Koenigsegg', logo: '/logos/koenigsegg.webp' },
+  { id: 'lamborghini', name: 'Lamborghini', logo: '/logos/lamborghini.webp' },
+  { id: 'land-rover', name: 'Land Rover', logo: '/logos/si/landrover.svg' },
+  { id: 'lexus', name: 'Lexus', logo: '/logos/lexus.webp' },
+  { id: 'maserati', name: 'Maserati', logo: '/logos/maserati.webp' },
+  { id: 'mazda', name: 'Mazda', logo: '/logos/si/mazda.svg' },
+  { id: 'mclaren', name: 'McLaren', logo: '/logos/mclaren.webp' },
+  { id: 'mercedes', name: 'Mercedes-Benz', logo: '/logos/si/mercedes.svg' },
+  { id: 'mini', name: 'MINI', logo: '/logos/si/mini.svg' },
+  { id: 'mitsubishi', name: 'Mitsubishi', logo: '/logos/si/mitsubishi.svg' },
+  { id: 'nissan', name: 'Nissan', logo: '/logos/si/nissan.svg' },
+  { id: 'opel', name: 'Opel', logo: '/logos/si/opel.svg' },
+  { id: 'pagani', name: 'Pagani', logo: '/logos/pagani.webp' },
+  { id: 'peugeot', name: 'Peugeot', logo: '/logos/si/peugeot.svg' },
+  { id: 'porsche', name: 'Porsche', logo: '/logos/porsche.webp' },
+  { id: 'ram', name: 'Ram', logo: '/logos/si/ram.svg' },
+  { id: 'renault', name: 'Renault', logo: '/logos/si/renault.svg' },
+  { id: 'rolls-royce', name: 'Rolls-Royce', logo: '/logos/rolls-royce.webp' },
+  { id: 'subaru', name: 'Subaru', logo: '/logos/si/subaru.svg' },
+  { id: 'suzuki', name: 'Suzuki', logo: '/logos/si/suzuki.svg' },
+  { id: 'tesla', name: 'Tesla', logo: '/logos/si/tesla.svg' },
+  { id: 'toyota', name: 'Toyota', logo: '/logos/si/toyota.svg' },
+  { id: 'volkswagen', name: 'Volkswagen', logo: '/logos/si/volkswagen.svg' },
+  { id: 'volvo', name: 'Volvo', logo: '/logos/si/volvo.svg' },
 ];
+
+const MARK_ROWS = (() => {
+  const half = Math.ceil(MARKS.length / 2);
+  return [MARKS.slice(0, half), MARKS.slice(half)];
+})();
 
 function RotatingQuote() {
   const reduced = useReducedMotion();
@@ -237,7 +284,7 @@ function Hero() {
                 animate={{ y: '0%' }}
                 transition={{ duration: 1.05, delay: 0.2, ease: EASE }}
               >
-                The great marques.
+                The Great Marques.
               </motion.span>
             </span>
             <span className="block overflow-hidden pb-[0.04em]">
@@ -303,75 +350,105 @@ function Hero() {
    Hovering a mark enlarges it and lifts a full-size preview above the strip. */
 
 function LogoStrip() {
-  const [active, setActive] = useState(null);
-  const total = LOGO_WALL.length;
-  const hovered = active === null ? null : LOGO_WALL[active];
+  const [active, setActive] = useState(null); // { row, index } — the mark under the cursor
 
   return (
-    <section id="marks" className="border-b border-[#f4f1ea]/10 px-5 py-14 sm:px-8 sm:py-20">
+    <section id="marks" className="border-b border-[#f4f1ea]/10 px-5 py-16 sm:px-8 sm:py-24">
       <div className="mx-auto w-full max-w-[1600px]">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <p className="sc-kicker">The marks</p>
           <p className="sc-kicker !text-[9.5px] !tracking-[0.22em] !text-[#f4f1ea]/45">
-            Hover a mark to enlarge
+            {MARKS.length} houses — hover to enlarge
           </p>
         </div>
 
-        <div className="relative mt-8">
-          <div
-            aria-hidden="true"
-            className={`pointer-events-none absolute bottom-full mb-6 hidden -translate-x-1/2 md:block ${
-              active === null ? 'opacity-0' : 'opacity-100'
-            } transition-opacity duration-200`}
-            style={{ left: `clamp(115px, ${(((active ?? 0) + 0.5) / total) * 100}%, calc(100% - 115px))` }}
-          >
-            <div
-              className={`w-[210px] border border-[#f4f1ea]/12 bg-[#0a0c0e]/90 px-6 py-6 backdrop-blur-md transition-all duration-300 ${
-                active === null ? 'translate-y-2' : 'translate-y-0'
-              }`}
-            >
-              {hovered && (
-                <>
-                  <img
-                    src={hovered.logo}
-                    alt=""
-                    className="mx-auto max-h-[72px] w-auto max-w-[158px] object-contain"
-                  />
-                  <p className="sc-kicker mt-4 text-center !text-[9.5px] !tracking-[0.28em]">
-                    {hovered.name}
-                  </p>
-                </>
-              )}
-            </div>
-          </div>
+        <div className="mt-10">
+          {MARK_ROWS.map((row, rowIndex) => {
+            const hoverIndex = active && active.row === rowIndex ? active.index : null;
+            const rowMark = hoverIndex === null ? null : row[hoverIndex];
 
-          <ul className="flex flex-wrap border-l border-t border-[#f4f1ea]/12">
-            {LOGO_WALL.map((mark, index) => (
-              <li
-                key={mark.id}
-                className="flex-1 basis-[74px] border-b border-r border-[#f4f1ea]/12"
-              >
+            return (
+              <div key={rowIndex} className="relative">
+                {/* Dock tooltip: the mark at full size, rising out of its stack. */}
                 <div
-                  role="img"
-                  tabIndex={0}
-                  aria-label={`${mark.name} logo`}
-                  onMouseEnter={() => setActive(index)}
-                  onMouseLeave={() => setActive((current) => (current === index ? null : current))}
-                  onFocus={() => setActive(index)}
-                  onBlur={() => setActive((current) => (current === index ? null : current))}
-                  className="group flex h-[74px] w-full items-center justify-center outline-offset-4 sm:h-[86px]"
+                  aria-hidden="true"
+                  className={`pointer-events-none absolute bottom-full z-40 hidden w-0 transition-opacity duration-200 md:block ${
+                    hoverIndex === null ? 'opacity-0' : 'opacity-100'
+                  }`}
+                  style={{
+                    left: `clamp(110px, ${(((hoverIndex ?? 0) + 0.5) / row.length) * 100}%, calc(100% - 110px))`,
+                  }}
                 >
-                  <img
-                    src={mark.logo}
-                    alt=""
-                    loading="lazy"
-                    decoding="async"
-                    className="max-h-[22px] w-auto max-w-[72%] object-contain opacity-55 transition duration-300 ease-out group-hover:scale-[1.5] group-hover:opacity-100 group-focus-visible:scale-[1.5] group-focus-visible:opacity-100"
-                  />
+                  <div className="absolute bottom-4 left-0 -translate-x-1/2">
+                    <div
+                      className={`flex origin-bottom flex-col items-center gap-2.5 rounded-2xl bg-[#0a0c0e]/90 px-6 py-5 shadow-[0_24px_60px_-24px_rgba(0,0,0,0.95)] backdrop-blur-md transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
+                        hoverIndex === null ? 'scale-75' : 'scale-100'
+                      }`}
+                    >
+                      {rowMark && (
+                        <>
+                          <img
+                            src={rowMark.logo}
+                            alt=""
+                            className="max-h-[56px] w-auto max-w-[150px] object-contain"
+                          />
+                          <p className="sc-kicker !text-[9px] !tracking-[0.28em]">{rowMark.name}</p>
+                        </>
+                      )}
+                    </div>
+                  </div>
                 </div>
-              </li>
-            ))}
-          </ul>
+
+                <ul className="mark-row" style={{ '--cols': row.length }}>
+                  {row.map((mark, index) => {
+                    const distance = hoverIndex === null ? 9 : Math.abs(index - hoverIndex);
+                    const scale = distance === 0 ? 1.3 : distance === 1 ? 1.12 : distance === 2 ? 1.03 : 1;
+                    const lift = distance === 0 ? -7 : distance === 1 ? -3 : 0;
+                    const isActive = (current) =>
+                      current && current.row === rowIndex && current.index === index;
+
+                    return (
+                      <li
+                        key={mark.id}
+                        className="mark-cell relative flex h-[76px] items-center justify-center sm:h-[104px]"
+                        style={{ zIndex: Math.max(1, 30 - distance) }}
+                      >
+                        <span aria-hidden="true" className="mark-sep" />
+                        <div
+                          role="img"
+                          tabIndex={0}
+                          aria-label={`${mark.name} logo`}
+                          onMouseEnter={() => setActive({ row: rowIndex, index })}
+                          onMouseLeave={() => setActive((current) => (isActive(current) ? null : current))}
+                          onFocus={() => setActive({ row: rowIndex, index })}
+                          onBlur={() => setActive((current) => (isActive(current) ? null : current))}
+                          className="mark-hit flex h-full w-full items-center justify-center outline-offset-4"
+                          style={{
+                            transform: `translateY(${lift}px) scale(${scale})`,
+                            transitionDelay: `${Math.min(distance, 3) * 20}ms`,
+                          }}
+                        >
+                          <img
+                            src={mark.logo}
+                            alt=""
+                            loading="lazy"
+                            decoding="async"
+                            className="max-h-[26px] w-auto max-w-[86%] object-contain transition-opacity duration-200 sm:max-h-[32px]"
+                            style={{
+                              opacity:
+                                hoverIndex === null ? 0.66 : distance === 0 ? 1 : distance <= 2 ? 0.55 : 0.26,
+                              filter:
+                                distance === 0 ? 'drop-shadow(0 8px 16px rgba(0,0,0,0.95))' : 'none',
+                            }}
+                          />
+                        </div>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>
