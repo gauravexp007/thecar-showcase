@@ -386,30 +386,23 @@ html.dark ::selection {
   color: #0d0f11;
 }
 
-/* The full-screen veil used by the theme switch: it fades the whole page into
-   the incoming background colour, the theme changes underneath it, then the
-   veil fades away over the new palette. */
-.theme-veil {
-  animation: theme-veil 900ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
-  will-change: opacity;
-}
-
-@keyframes theme-veil {
-  0% {
-    opacity: 0;
-  }
-  46% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .theme-veil {
-    display: none;
-  }
+/* Theme switch: one ordinary cross-fade. The .dark class flips at once and the
+   toggle arms this helper class on <html> for a beat, so surfaces, borders and
+   type all ease into their new colour over a single 260ms ease — no veil, no
+   staggered tail, nothing decorative. */
+html.theme-transition,
+html.theme-transition *,
+html.theme-transition *::before,
+html.theme-transition *::after {
+  transition:
+    background-color 260ms ease,
+    color 260ms ease,
+    border-color 260ms ease,
+    outline-color 260ms ease,
+    box-shadow 260ms ease,
+    fill 260ms ease,
+    stroke 260ms ease !important;
+  transition-delay: 0s !important;
 }
 
 /* ------------------------------------------------- cinematic showcase page
@@ -505,6 +498,15 @@ html.dark ::selection {
   background-color: transparent;
   border-color: transparent;
   color: #ffffff;
+}
+
+/* A button that sits on the hero photograph: a thin dark fill and a blur keep
+   the label readable over bright bodywork without dimming the picture. */
+.sc-btn-glass {
+  background-color: rgba(8, 9, 10, 0.42);
+  border-color: rgba(244, 241, 234, 0.36);
+  -webkit-backdrop-filter: blur(8px) saturate(120%);
+  backdrop-filter: blur(8px) saturate(120%);
 }
 
 .sc-nav-solid {

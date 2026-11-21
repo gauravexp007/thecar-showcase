@@ -137,11 +137,11 @@ function ShowcaseNav({ compareCount }) {
 
 /* -------------------------------------------------------------------- hero */
 
-/* The opening chapter: the hero is one photograph at a time, full-bleed, with
-   the headline standing on it. Scrolling walks sideways through every house in
-   the index — the next marque slides in from the right, the last slides away
-   to the left. */
-const HERO_STEP = 52; /* svh of scrolling handed to each marque */
+/* The opening plate is a wall of the marks themselves: every brand in the
+   showcase (plus Audi and Jaguar) stacked vertically, separated by a hairline,
+   all of them on screen at once — nothing here is driven by the scroll. Hovering
+   a row enlarges that mark in place and lifts a full-size preview into the space
+   beside the rail. */
 
 const HERO_QUOTES = [
   'A badge says where a car was built. The car says why.',
@@ -152,6 +152,14 @@ const HERO_QUOTES = [
   'Every great marque is one stubborn idea, repeated.',
 ];
 
+/* The wall: the index houses in their order, then the two marks that sit
+   outside it. */
+const LOGO_WALL = [
+  ...MARQUES.map((marque) => ({ id: marque.id, name: marque.name, logo: marque.logo })),
+  { id: 'audi', name: 'Audi', logo: '/logos/audi.webp' },
+  { id: 'jaguar', name: 'Jaguar', logo: '/logos/jaguar.webp' },
+];
+
 function RotatingQuote() {
   const reduced = useReducedMotion();
   const [index, setIndex] = useState(0);
@@ -159,243 +167,211 @@ function RotatingQuote() {
   useEffect(() => {
     const id = window.setInterval(() => {
       setIndex((current) => (current + 1) % HERO_QUOTES.length);
-    }, 4600);
+    }, 5200);
     return () => window.clearInterval(id);
   }, []);
 
   return (
-    <div className="relative mx-auto mt-7 h-[3.5em] max-w-[720px] overflow-hidden px-2">
+    <div className="relative h-[4.8em] max-w-[620px] overflow-hidden sm:h-[4.2em]">
       <AnimatePresence initial={false}>
         <motion.p
           key={index}
-          initial={{
-            opacity: 0,
-            y: reduced ? 0 : 12,
-            filter: reduced ? 'blur(0px)' : 'blur(6px)',
-          }}
-          animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-          exit={{
-            opacity: 0,
-            y: reduced ? 0 : -12,
-            filter: reduced ? 'blur(0px)' : 'blur(6px)',
-          }}
-          transition={{ duration: 0.7, ease: EASE }}
-          className="sc-serif absolute inset-x-0 top-0 text-[clamp(1.2rem,2.05vw,1.75rem)] leading-[1.45] italic text-[#f4f1ea]/[0.9] [text-shadow:0_2px_30px_rgba(0,0,0,0.8)]"
+          initial={{ opacity: 0, y: reduced ? 0 : 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: reduced ? 0 : -10 }}
+          transition={{ duration: 0.65, ease: EASE }}
+          className="sc-serif absolute inset-x-0 top-0 text-[clamp(1.15rem,1.85vw,1.55rem)] leading-[1.5] italic text-[#f4f1ea]/[0.92]"
         >
-          {HERO_QUOTES[index]}
+          “{HERO_QUOTES[index]}”
         </motion.p>
       </AnimatePresence>
     </div>
   );
 }
 
-/* One car of the opening plate. The frame slides sideways with the scroll and
-   the photograph is held whole inside it — never cropped — while the car that
-   owns the plate settles to 1:1 and its neighbours sit slightly larger, which
-   gives the movement depth as well as travel. */
-function HeroSlide({ marque, index, total, progress, reduced }) {
-  /* The plate dissolves from one car to the next: each photograph is fully
-     present for its half of the step and gone by the time the next one owns
-     the plate, so the change is read as the scroll, not as a card sliding by. */
-  const opacity = useTransform(progress, (value) => {
-    const distance = Math.abs(value * (total - 1) - index);
-    if (reduced) return distance < 0.5 ? 1 : 0;
-    /* Full opacity on either side of the step, a quick dissolve across the
-       middle: the plate is never left half a car for long. */
-    return Math.max(0, Math.min(1, 1.8 - 1.8 * distance));
-  });
-
-  const scale = useTransform(opacity, [0, 1], [1.045, 1]);
-
-  const image = marque.images[0];
-
-  return (
-    <motion.div
-      style={{ opacity }}
-      className="absolute inset-0 will-change-transform"
-      aria-hidden="true"
-    >
-      <div className="absolute inset-[4%] flex items-center justify-center">
-        <motion.img
-          src={image.src}
-          alt={image.alt}
-          loading={index < 2 ? 'eager' : 'lazy'}
-          decoding="async"
-          style={{ scale }}
-          className="block h-auto max-h-full w-auto max-w-full object-contain"
-        />
-      </div>
-    </motion.div>
-  );
-}
-
 function Hero() {
-  const stageRef = useRef(null);
-  const reduced = useReducedMotion();
-  const total = MARQUES.length;
-
-  const { scrollYProgress } = useScroll({ target: stageRef, offset: ['start start', 'end end'] });
-  const smooth = useSpring(scrollYProgress, { stiffness: 130, damping: 30, mass: 0.35 });
-  const progress = reduced ? scrollYProgress : smooth;
-
-  const [active, setActive] = useState(0);
-
-  useMotionValueEvent(progress, 'change', (value) => {
-    const next = Math.min(total - 1, Math.max(0, Math.round(value * (total - 1))));
-    setActive((current) => (current === next ? current : next));
-  });
-
-  const gotoBrand = (index) => {
-    const el = stageRef.current;
-    if (!el) return;
-    const distance = el.offsetHeight - window.innerHeight;
-    window.scrollTo({
-      top: el.offsetTop + (index / (total - 1)) * distance + 2,
-      behavior: 'smooth',
-    });
-  };
-
-  const marque = MARQUES[active];
-
   return (
     <section
       id="top"
-      ref={stageRef}
-      className="relative"
-      style={{ height: `calc(100svh + ${(total - 1) * HERO_STEP}svh)` }}
+      className="relative flex h-[100svh] min-h-[620px] flex-col overflow-hidden bg-[#050607]"
     >
-      <div className="sticky top-0 h-[100svh] overflow-hidden bg-[#050607]">
-        <div className="mx-auto flex h-full max-w-[1600px] flex-col gap-5 px-5 pt-[calc(72px_+_2svh)] pb-5 sm:px-8 lg:flex-row lg:items-center lg:gap-14 lg:pb-8">
-          <div className="order-1 flex min-h-0 w-full flex-col justify-center lg:order-1 lg:w-[44%] lg:flex-none">
-            <motion.p
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.1, ease: EASE }}
-              className="sc-kicker"
-            >
-              Goldenline — the marque index
-            </motion.p>
+      <img
+        src="/marques/hero-mclaren-570s-rear.avif"
+        alt="A silver McLaren 570S from the rear three-quarter, lit in a dark studio"
+        fetchPriority="high"
+        decoding="async"
+        className="absolute inset-0 h-full w-full object-cover object-[64%_50%] sm:object-[50%_50%]"
+      />
 
-            <h1 className="sc-serif mt-4 text-[clamp(2.2rem,5.2vw,4.6rem)] leading-[0.98] text-[#f7f4ee]">
-              <span className="block overflow-hidden pb-[0.04em]">
-                <motion.span
-                  className="block"
-                  initial={{ y: '110%' }}
-                  animate={{ y: '0%' }}
-                  transition={{ duration: 1.05, delay: 0.2, ease: EASE }}
-                >
-                  The great marques.
-                </motion.span>
-              </span>
-              <span className="block overflow-hidden pb-[0.04em]">
-                <motion.span
-                  className="block italic"
-                  initial={{ y: '110%' }}
-                  animate={{ y: '0%' }}
-                  transition={{ duration: 1.05, delay: 0.32, ease: EASE }}
-                >
-                  Explore them.
-                </motion.span>
-              </span>
-            </h1>
+      {/* Black vignette top and bottom: the picture sinks into the page at both
+          edges, and a soft radial keeps the light pooled on the car itself. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 top-0 h-[54%] bg-gradient-to-b from-[#050607] from-10% via-[#050607]/60 via-55% to-transparent"
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-[58%] bg-gradient-to-t from-[#050607] from-10% via-[#050607]/65 via-55% to-transparent"
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(56%_46%_at_52%_54%,rgba(255,255,255,0.08),transparent_72%)]"
+      />
 
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1, delay: 0.6, ease: EASE }}
-            >
-              <RotatingQuote />
-            </motion.div>
+      <div className="relative mx-auto flex h-full w-full max-w-[1600px] flex-col px-5 pt-[calc(72px_+_5svh)] pb-6 sm:px-8 sm:pb-8">
+        <div className="max-w-[1080px]">
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.1, ease: EASE }}
+            className="sc-kicker"
+          >
+            Goldenline — the marque index
+          </motion.p>
 
-            <motion.div
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.9, delay: 0.7, ease: EASE }}
-              className="flex flex-wrap items-center gap-3"
-            >
-              <button type="button" onClick={() => jump('index')} className="sc-btn">
-                Start exploring
-                <ArrowDown size={14} aria-hidden="true" />
-              </button>
-              <a href={browseHash()} className="sc-btn sc-btn-quiet">
-                Open the showroom
-                <ArrowUpRight size={14} aria-hidden="true" />
-              </a>
-            </motion.div>
-
-            <div className="mt-7 border-t border-[#f4f1ea]/12 pt-4">
-              <div className="flex items-center gap-3">
-                <img
-                  src={marque.logo}
-                  alt={`${marque.name} logo`}
-                  loading="eager"
-                  className="h-4 w-auto max-w-[64px] object-contain opacity-80"
-                />
-                <span className="sc-kicker !text-[10px]">
-                  {pad(active + 1)}
-                  <span className="mx-1.5" aria-hidden="true">
-                    /
-                  </span>
-                  {pad(total)}
-                </span>
-                <span className="sc-kicker ml-auto hidden !text-[10px] sm:inline">
-                  Scrolls one house at a time
-                </span>
-              </div>
-
-              <motion.div
-                key={marque.id}
-                initial={{ opacity: 0, y: reduced ? 0 : 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.34, ease: EASE }}
+          <h1 className="sc-photo-title sc-serif mt-5 text-[clamp(2.5rem,6.2vw,5.4rem)] leading-[0.95]">
+            <span className="block overflow-hidden pb-[0.04em]">
+              <motion.span
+                className="block"
+                initial={{ y: '110%' }}
+                animate={{ y: '0%' }}
+                transition={{ duration: 1.05, delay: 0.2, ease: EASE }}
               >
-                  <p className="font-lemon mt-2.5 text-[clamp(1.5rem,2.7vw,2.4rem)] tracking-[0.05em] text-[#f7f4ee] uppercase">
-                    {marque.name}
-                  </p>
-                  <p className="mt-1.5 text-[11px] tracking-[0.2em] text-[#f4f1ea]/65 uppercase">
-                    Founded {marque.founded}
-                    <span className="mx-1.5" aria-hidden="true">
-                      /
-                    </span>
-                    {marque.city}, {marque.country}
-                  </p>
-              </motion.div>
+                The great marques.
+              </motion.span>
+            </span>
+            <span className="block overflow-hidden pb-[0.04em]">
+              <motion.span
+                className="block italic"
+                initial={{ y: '110%' }}
+                animate={{ y: '0%' }}
+                transition={{ duration: 1.05, delay: 0.32, ease: EASE }}
+              >
+                Explore them.
+              </motion.span>
+            </span>
+          </h1>
+        </div>
 
-              <div className="mt-3.5 flex items-center gap-1">
-                {MARQUES.map((item, index) => (
-                  <button
-                    key={item.id}
-                    type="button"
-                    onClick={() => gotoBrand(index)}
-                    aria-label={`Go to ${item.name}`}
-                    aria-current={index === active ? 'true' : undefined}
-                    className="group py-2"
-                  >
-                    <span
-                      className={`block h-px transition-all duration-500 ${
-                        index === active
-                          ? 'w-6 bg-[#c9a15a] sm:w-8'
-                          : 'w-3 bg-[#f4f1ea]/35 group-hover:bg-[#f4f1ea]/80 sm:w-4'
-                      }`}
-                    />
-                  </button>
-                ))}
-              </div>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 0.6, ease: EASE }}
+          className="mt-7 sm:mt-auto sm:pt-8"
+        >
+          <RotatingQuote />
+        </motion.div>
+
+        <div className="mt-auto sm:mt-6">
+          <motion.div
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.7, ease: EASE }}
+            className="flex flex-wrap items-center gap-3"
+          >
+            <button type="button" onClick={() => jump('index')} className="sc-btn sc-btn-glass">
+              Start exploring
+              <ArrowDown size={14} aria-hidden="true" />
+            </button>
+            <a
+              href={browseHash()}
+              className="sc-btn sc-btn-quiet sc-btn-glass [text-shadow:0_1px_12px_rgba(0,0,0,0.9)]"
+            >
+              Open the showroom
+              <ArrowUpRight size={14} aria-hidden="true" />
+            </a>
+          </motion.div>
+
+          <div className="mt-7 flex items-end justify-between gap-4 border-t border-[#f4f1ea]/15 pt-4">
+            <p className="sc-kicker !text-[9.5px] !tracking-[0.22em] !text-[#f4f1ea]/45">
+              McLaren 570S — rear three-quarter
+            </p>
+            <p className="sc-kicker hidden !text-[9.5px] !tracking-[0.22em] !text-[#f4f1ea]/45 sm:block">
+              Fifteen houses · thirty cars
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------- logo strip */
+
+/* The marks, laid out horizontally under the name band: one row on a wide
+   screen, wrapping into a grid on a phone, every cell cut by a hairline.
+   Hovering a mark enlarges it and lifts a full-size preview above the strip. */
+
+function LogoStrip() {
+  const [active, setActive] = useState(null);
+  const total = LOGO_WALL.length;
+  const hovered = active === null ? null : LOGO_WALL[active];
+
+  return (
+    <section id="marks" className="border-b border-[#f4f1ea]/10 px-5 py-14 sm:px-8 sm:py-20">
+      <div className="mx-auto w-full max-w-[1600px]">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+          <p className="sc-kicker">The marks</p>
+          <p className="sc-kicker !text-[9.5px] !tracking-[0.22em] !text-[#f4f1ea]/45">
+            Hover a mark to enlarge
+          </p>
+        </div>
+
+        <div className="relative mt-8">
+          <div
+            aria-hidden="true"
+            className={`pointer-events-none absolute bottom-full mb-6 hidden -translate-x-1/2 md:block ${
+              active === null ? 'opacity-0' : 'opacity-100'
+            } transition-opacity duration-200`}
+            style={{ left: `clamp(115px, ${(((active ?? 0) + 0.5) / total) * 100}%, calc(100% - 115px))` }}
+          >
+            <div
+              className={`w-[210px] border border-[#f4f1ea]/12 bg-[#0a0c0e]/90 px-6 py-6 backdrop-blur-md transition-all duration-300 ${
+                active === null ? 'translate-y-2' : 'translate-y-0'
+              }`}
+            >
+              {hovered && (
+                <>
+                  <img
+                    src={hovered.logo}
+                    alt=""
+                    className="mx-auto max-h-[72px] w-auto max-w-[158px] object-contain"
+                  />
+                  <p className="sc-kicker mt-4 text-center !text-[9.5px] !tracking-[0.28em]">
+                    {hovered.name}
+                  </p>
+                </>
+              )}
             </div>
           </div>
 
-          <div className="sc-plate relative order-2 aspect-[16/10] w-full overflow-hidden border border-[#f4f1ea]/12 lg:order-2 lg:aspect-[16/11] lg:flex-1">
-            {MARQUES.map((item, index) => (
-              <HeroSlide
-                key={item.id}
-                marque={item}
-                index={index}
-                total={total}
-                progress={progress}
-                reduced={reduced}
-              />
+          <ul className="flex flex-wrap border-l border-t border-[#f4f1ea]/12">
+            {LOGO_WALL.map((mark, index) => (
+              <li
+                key={mark.id}
+                className="flex-1 basis-[74px] border-b border-r border-[#f4f1ea]/12"
+              >
+                <div
+                  role="img"
+                  tabIndex={0}
+                  aria-label={`${mark.name} logo`}
+                  onMouseEnter={() => setActive(index)}
+                  onMouseLeave={() => setActive((current) => (current === index ? null : current))}
+                  onFocus={() => setActive(index)}
+                  onBlur={() => setActive((current) => (current === index ? null : current))}
+                  className="group flex h-[74px] w-full items-center justify-center outline-offset-4 sm:h-[86px]"
+                >
+                  <img
+                    src={mark.logo}
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                    className="max-h-[22px] w-auto max-w-[72%] object-contain opacity-55 transition duration-300 ease-out group-hover:scale-[1.5] group-hover:opacity-100 group-focus-visible:scale-[1.5] group-focus-visible:opacity-100"
+                  />
+                </div>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
       </div>
     </section>
@@ -432,17 +408,7 @@ function BrandMarquee() {
 function Approach() {
   return (
     <section id="approach" className="relative">
-      <div className="px-5 sm:px-8">
-        <div className="sc-plate relative mx-auto aspect-[16/9] w-full max-w-[1120px] overflow-hidden border border-[#f4f1ea]/12">
-          <img
-            src="/marques/bentley-3.avif"
-            alt="A black Bentley Continental GT from the front three-quarter"
-            className="h-full w-full object-contain p-[2.5%]"
-          />
-        </div>
-      </div>
-
-      <div className="mx-auto w-full max-w-[1600px] px-5 pt-14 pb-24 sm:px-8 sm:pt-20 sm:pb-32">
+      <div className="mx-auto w-full max-w-[1600px] px-5 pt-16 pb-24 sm:px-8 sm:pt-24 sm:pb-32">
         <div className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:gap-20">
           <div>
             <Reveal>
@@ -1007,9 +973,9 @@ function ShowcaseFooter() {
         </div>
         <div className="max-w-[380px] sm:text-right">
           <p className="text-[12px] leading-relaxed text-[#f4f1ea]/45">
-            Photography from Wikimedia Commons contributors, resized and re-encoded for this layout
-            and used here for an editorial demo. Every car, name, badge and image belongs to its
-            manufacturer.
+            Photography from Wikimedia Commons contributors and manufacturer press images, resized
+            and re-encoded for this layout and used here for an editorial demo. Every car, name, badge
+            and image belongs to its manufacturer.
           </p>
           <button
             type="button"
@@ -1035,6 +1001,7 @@ export default function ShowcaseView({ compareCount = 0 }) {
       <main>
         <Hero />
         <BrandMarquee />
+        <LogoStrip />
         <Approach />
         <Index />
         <div id="marques">
