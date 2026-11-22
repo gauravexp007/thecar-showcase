@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ArrowRight, Check, SearchX } from 'lucide-react';
+import { ArrowRight, Box, Check, SearchX } from 'lucide-react';
 import PaintSwatches from '../components/PaintSwatches';
 import CarStage from '../components/CarStage';
 import SiteHeader from '../components/SiteHeader';
@@ -17,6 +17,7 @@ import {
   specRows,
 } from '../lib/format';
 import { carHash } from '../lib/hash';
+import { openStudio } from '../lib/studioStore';
 
 export default function BrowseView({
   car,
@@ -239,6 +240,16 @@ function BrowseInfoBar({
                 Add to compare
               </button>
             )}
+            {/* The preview opens over this page, so the back button returns here. */}
+            <button
+              type="button"
+              onClick={openStudio}
+              aria-label="Open the car in the 3D preview"
+              className="btn-ghost !px-3 sm:!px-4"
+            >
+              <Box size={15} aria-hidden="true" />
+              <span className="hidden sm:inline">3D view</span>
+            </button>
             <FavoriteButton
               active={favorites.has(car.slug)}
               onToggle={() => onFavorite(car.slug)}
