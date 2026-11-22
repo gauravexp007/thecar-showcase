@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useReducedMotion } from 'framer-motion';
 import { CARS, carsOfBrand, getCar } from './data/cars';
-import { MARQUES } from './data/marques';
+import { ALL_MARQUES } from './data/marquesExtra';
 import { carHash, parseHash } from './lib/hash';
 import { preloadCarImages } from './lib/preload';
 import BrowseView from './views/BrowseView';
@@ -9,6 +9,7 @@ import DetailView from './views/DetailView';
 import CompareView from './views/CompareView';
 import ShowcaseView from './views/ShowcaseView';
 import RouteCurtain from './components/RouteCurtain';
+import CarStudio from './components/CarStudio';
 
 const COMPARE_LIMIT = 3;
 
@@ -128,7 +129,7 @@ export default function App() {
   useEffect(() => {
     document.title =
       route.name === 'showcase'
-        ? `Goldenline — ${MARQUES.length} marques, explored`
+        ? `Goldenline — ${ALL_MARQUES.length} marques, explored`
         : route.name === 'detail'
           ? `${selectedCar.brand} ${selectedCar.model} — Goldenline`
           : route.name === 'compare'
@@ -277,6 +278,7 @@ export default function App() {
     <>
       {view}
       {curtain && <RouteCurtain phase={curtain.phase} label={curtain.label} />}
+      <CarStudio />
     </>
   );
 }
