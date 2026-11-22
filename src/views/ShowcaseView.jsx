@@ -9,9 +9,10 @@ import {
   useSpring,
   useTransform,
 } from 'framer-motion';
-import { ArrowDown, ArrowRight, ArrowUpRight } from 'lucide-react';
-import { MARQUES } from '../data/marques';
+import { ArrowDown, ArrowRight, ArrowUpRight, Box } from 'lucide-react';
+import { ALL_MARQUES } from '../data/marquesExtra';
 import { browseHash, compareHash } from '../lib/hash';
+import { openStudio } from '../lib/studioStore';
 
 const EASE = [0.16, 1, 0.3, 1];
 
@@ -327,6 +328,15 @@ function Hero() {
               Open the showroom
               <ArrowUpRight size={14} aria-hidden="true" />
             </a>
+            {/* The 3D room opens over this page, so the back button returns here. */}
+            <button
+              type="button"
+              onClick={openStudio}
+              className="sc-btn sc-btn-quiet sc-btn-glass [text-shadow:0_1px_12px_rgba(0,0,0,0.9)]"
+            >
+              3D view
+              <Box size={14} aria-hidden="true" />
+            </button>
           </motion.div>
 
           <div className="mt-7 flex items-end justify-between gap-4 border-t border-[#f4f1ea]/15 pt-4">
@@ -334,7 +344,7 @@ function Hero() {
               McLaren 570S — rear three-quarter
             </p>
             <p className="sc-kicker hidden !text-[9.5px] !tracking-[0.22em] !text-[#f4f1ea]/45 sm:block">
-              Fifteen houses · thirty cars
+              {ALL_MARQUES.length} houses · {ALL_MARQUES.length * 2} cars
             </p>
           </div>
         </div>
@@ -463,7 +473,7 @@ function BrandMarquee() {
       <div className="sc-marquee-track">
         {[0, 1].map((copy) => (
           <div key={copy} className="flex shrink-0 items-center" aria-hidden={copy === 1}>
-            {MARQUES.map((marque) => (
+            {ALL_MARQUES.map((marque) => (
               <span key={`${copy}-${marque.id}`} className="flex items-center">
                 <span className="font-lemon px-7 text-[clamp(1.3rem,3vw,2.4rem)] tracking-[0.06em] whitespace-nowrap text-[#f4f1ea]/70 uppercase">
                   {marque.name}
@@ -511,8 +521,8 @@ function Approach() {
             <Reveal delay={0.1}>
               <dl className="mt-10 grid max-w-[440px] grid-cols-3 gap-5 border-t border-[#f4f1ea]/15 pt-6">
                 {[
-                  [String(MARQUES.length), 'Marques'],
-                  [String(MARQUES.length * 2), 'Cars'],
+                  [String(ALL_MARQUES.length), 'Marques'],
+                  [String(ALL_MARQUES.length * 2), 'Cars'],
                   ['123', 'Years covered'],
                 ].map(([value, label]) => (
                   <div key={label}>
@@ -545,7 +555,7 @@ function Index() {
           <Reveal>
             <p className="sc-kicker">The index</p>
             <h2 className="sc-serif mt-5 max-w-[16ch] text-[clamp(2.2rem,5vw,4rem)] leading-[0.98] text-[#f7f4ee]">
-              Fifteen houses, in <em className="italic">order</em>
+              {ALL_MARQUES.length} houses, in <em className="italic">order</em>
             </h2>
           </Reveal>
           <Reveal delay={0.08}>
@@ -556,7 +566,7 @@ function Index() {
         </div>
 
         <ul className="mt-14 border-t border-[#f4f1ea]/12">
-          {MARQUES.map((marque, index) => (
+          {ALL_MARQUES.map((marque, index) => (
             <Reveal
               key={marque.id}
               delay={index * 0.03}
@@ -773,9 +783,20 @@ function MarqueChapter({ marque, index }) {
                     {marque.city}, {marque.country}
                   </p>
                 </div>
-                <span className="sc-kicker ml-auto hidden shrink-0 !text-[10px] lg:inline">
-                  {pad(index + 1)} / {pad(MARQUES.length)}
-                </span>
+                <div className="ml-auto flex shrink-0 flex-col items-end gap-2 self-center">
+                  <button
+                    type="button"
+                    onClick={openStudio}
+                    className="sc-3d"
+                    aria-label={`Open the 3D preview for ${marque.name}`}
+                  >
+                    <Box size={12} aria-hidden="true" />
+                    <span>3D preview</span>
+                  </button>
+                  <span className="sc-kicker hidden !text-[9.5px] lg:inline">
+                    {pad(index + 1)} / {pad(ALL_MARQUES.length)}
+                  </span>
+                </div>
               </div>
 
               <div className="flex flex-1 items-center py-7">
@@ -941,8 +962,8 @@ function MarqueDetail({ marque, index }) {
 /* ----------------------------------------------------------------- numbers */
 
 const FIGURES = [
-  { value: MARQUES.length, label: 'Marques' },
-  { value: MARQUES.length * 2, label: 'Cars, two each' },
+  { value: ALL_MARQUES.length, label: 'Marques' },
+  { value: ALL_MARQUES.length * 2, label: 'Cars, two each' },
   { value: 2300, label: 'Most power, hp' },
   { value: 330, label: 'Top speed, mph' },
   { value: 9500, label: 'Highest redline, rpm' },
@@ -1007,7 +1028,7 @@ function Closing() {
         </Reveal>
         <Reveal delay={0.07}>
           <h2 className="sc-serif mt-6 text-[clamp(2.4rem,6.2vw,5rem)] leading-[0.96] text-[#f7f4ee]">
-            Fifteen houses.
+            {ALL_MARQUES.length} houses.
             <br />
             <em className="italic">One place</em> to read them.
           </h2>
@@ -1082,7 +1103,7 @@ export default function ShowcaseView({ compareCount = 0 }) {
         <Approach />
         <Index />
         <div id="marques">
-          {MARQUES.map((marque, index) => (
+          {ALL_MARQUES.map((marque, index) => (
             <div key={marque.id}>
               <MarqueChapter marque={marque} index={index} />
               <MarqueDetail marque={marque} index={index} />
