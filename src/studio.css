@@ -1,0 +1,386 @@
+/* The 3D preview room: a full-screen overlay that opens over whichever page
+   you were on, with its own scroll track so the page underneath keeps its
+   place. */
+
+.cst {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  background: #05060a;
+  color: #f4f1ea;
+  font-family: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
+}
+
+.cst-scroll {
+  position: absolute;
+  inset: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.cst-track {
+  position: relative;
+  height: 640vh;
+}
+
+.cst-stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 80% at 50% 118%, rgba(86, 98, 124, 0.22), transparent 62%),
+    radial-gradient(70% 50% at 50% 4%, rgba(255, 255, 255, 0.06), transparent 72%),
+    linear-gradient(180deg, #07080d 0%, #05060a 52%, #030407 100%);
+  animation: cst-in 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes cst-in {
+  from {
+    opacity: 0;
+    transform: scale(1.015);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.cst-canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+  touch-action: pan-y;
+}
+
+.cst-canvas.is-dragging {
+  cursor: grabbing;
+}
+
+.cst-vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(62% 52% at 50% 46%, transparent 40%, rgba(0, 0, 0, 0.55) 100%),
+    linear-gradient(180deg, rgba(5, 6, 10, 0.85) 0%, transparent 22%, transparent 62%, rgba(5, 6, 10, 0.92) 100%);
+}
+
+.cst-bar {
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px clamp(16px, 3.6vw, 42px);
+  pointer-events: none;
+}
+
+.cst-back {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 38px;
+  padding: 0 16px 0 12px;
+  border: 1px solid rgba(244, 241, 234, 0.22);
+  border-radius: 999px;
+  background: rgba(10, 12, 16, 0.6);
+  color: #f4f1ea;
+  font: inherit;
+  font-size: 10px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  transition: border-color 0.25s ease, background 0.25s ease, transform 0.25s ease;
+}
+
+.cst-back:hover {
+  border-color: rgba(244, 241, 234, 0.5);
+  background: rgba(18, 20, 26, 0.8);
+  transform: translateX(-2px);
+}
+
+.cst-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(244, 241, 234, 0.56);
+}
+
+.cst-dot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.6;
+}
+
+.cst-hints {
+  position: absolute;
+  z-index: 3;
+  top: 50%;
+  left: clamp(16px, 3.6vw, 42px);
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  pointer-events: none;
+  transition: opacity 0.8s ease;
+}
+
+.cst-hints.is-quiet {
+  opacity: 0.24;
+}
+
+.cst-hint {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 9.5px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: rgba(244, 241, 234, 0.54);
+}
+
+.cst-key {
+  display: inline-flex;
+  align-items: center;
+  height: 21px;
+  padding: 0 9px;
+  border: 1px solid rgba(244, 241, 234, 0.18);
+  border-radius: 999px;
+  font-size: 8.5px;
+  letter-spacing: 0.22em;
+  color: rgba(244, 241, 234, 0.8);
+}
+
+.cst-hud {
+  position: absolute;
+  z-index: 3;
+  inset: auto 0 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 26px;
+  padding: clamp(20px, 3.4vw, 40px) clamp(16px, 3.6vw, 42px) clamp(24px, 3.8vw, 46px);
+  pointer-events: none;
+}
+
+.cst-copy {
+  max-width: 470px;
+}
+
+.cst-kicker {
+  margin: 0;
+  font-size: 9.5px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: rgba(244, 241, 234, 0.56);
+}
+
+.cst-title {
+  margin: 10px 0 0;
+  font-family: 'Instrument Serif', ui-serif, Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(2.4rem, 5.6vw, 4.4rem);
+  line-height: 0.94;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+.cst-title em {
+  font-style: italic;
+  color: rgba(244, 241, 234, 0.7);
+}
+
+.cst-lede {
+  margin: 12px 0 0;
+  max-width: 44ch;
+  font-size: 13px;
+  line-height: 1.62;
+  color: rgba(244, 241, 234, 0.58);
+}
+
+.cst-loader {
+  position: absolute;
+  z-index: 5;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: min(240px, 64vw);
+  text-align: center;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+.cst-loader-label {
+  margin: 0 0 12px;
+  font-size: 9.5px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: rgba(244, 241, 234, 0.6);
+}
+
+.cst-error {
+  position: absolute;
+  z-index: 6;
+  left: 50%;
+  top: 50%;
+  width: min(360px, 82vw);
+  transform: translate(-50%, -50%);
+  padding: 24px;
+  border: 1px solid rgba(244, 241, 234, 0.16);
+  background: rgba(8, 9, 13, 0.9);
+  text-align: center;
+  backdrop-filter: blur(10px);
+}
+
+.cst-error-title {
+  margin: 0;
+  font-family: 'Instrument Serif', ui-serif, Georgia, serif;
+  font-size: 21px;
+}
+
+.cst-error-copy {
+  margin: 10px 0 0;
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: rgba(244, 241, 234, 0.58);
+}
+
+.cst-error-actions {
+  margin-top: 16px;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.cst-space {
+  height: 540vh;
+}
+
+.cst-meter {
+  position: absolute;
+  right: 24px;
+  top: 50%;
+  z-index: 4;
+  width: 2px;
+  height: 132px;
+  transform: translateY(-50%);
+  border-radius: 2px;
+  background: rgba(247, 244, 238, 0.16);
+  overflow: hidden;
+}
+
+.cst-meter-fill {
+  position: absolute;
+  inset: 0;
+  transform-origin: top center;
+  background: linear-gradient(180deg, #d8b478, #f7f4ee);
+}
+
+.cst-load-track {
+  width: 180px;
+  height: 2px;
+  margin-top: 16px;
+  background: rgba(247, 244, 238, 0.18);
+  overflow: hidden;
+}
+
+.cst-load-track span {
+  display: block;
+  height: 100%;
+  background: #d8b478;
+  transition: width 0.3s ease;
+}
+
+.cst-load-pct {
+  margin-top: 12px;
+  font-size: 10px;
+  letter-spacing: 0.24em;
+  color: rgba(247, 244, 238, 0.55);
+}
+
+/* The 3D button each house carries in its chapter header. */
+.sc-3d {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border: 1px solid rgba(216, 180, 120, 0.38);
+  border-radius: 999px;
+  padding: 7px 12px;
+  font-size: 9.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #e6cfa6;
+  background: rgba(216, 180, 120, 0.04);
+  transition:
+    background 0.4s ease,
+    border-color 0.4s ease,
+    color 0.4s ease;
+}
+
+.sc-3d:hover {
+  background: rgba(216, 180, 120, 0.16);
+  border-color: rgba(216, 180, 120, 0.75);
+  color: #f9f6f0;
+}
+
+@media (max-width: 860px) {
+  .cst-hints {
+    top: auto;
+    bottom: calc(100svh - 96px);
+    left: 16px;
+    transform: none;
+    flex-direction: row;
+    gap: 12px;
+  }
+
+  .cst-hud {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    padding-bottom: 18px;
+  }
+
+  .cst-lede {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .cst-meter {
+    right: 12px;
+    height: 96px;
+  }
+}
+
+@media (max-width: 560px) {
+  .cst-meta span:last-child,
+  .cst-dot {
+    display: none;
+  }
+
+  .cst-title {
+    font-size: clamp(2rem, 11vw, 2.8rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cst-stage {
+    animation: none;
+  }
+}

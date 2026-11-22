@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { ArrowLeft, RotateCcw } from 'lucide-react';
 import { createStudio, STAGE_LABEL } from '../studio/rrStudio';
 import { closeStudio, getStudioOpen, subscribeStudio } from '../lib/studioStore';
+import '../studio.css';
 
 /* The 3D preview. It opens over whatever page you were on, so the back button
    puts you exactly where you left — same page, same scroll. */
