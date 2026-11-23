@@ -215,6 +215,129 @@
   color: rgba(244, 241, 234, 0.58);
 }
 
+.cst-stage-label {
+  margin: 14px 0 0;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 9.5px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: rgba(244, 241, 234, 0.8);
+}
+
+.cst-stage-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #c9a15a;
+  box-shadow: 0 0 12px rgba(201, 161, 90, 0.9);
+  flex-shrink: 0;
+}
+
+.cst-paint {
+  pointer-events: auto;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.cst-swatches {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 7px;
+}
+
+.cst-swatch {
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(244, 241, 234, 0.28);
+  background: var(--swatch);
+  cursor: pointer;
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.28), 0 6px 14px rgba(0, 0, 0, 0.6);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.cst-swatch:hover {
+  transform: translateY(-2px);
+  border-color: rgba(244, 241, 234, 0.6);
+}
+
+.cst-swatch.is-active {
+  border-color: transparent;
+  box-shadow:
+    0 0 0 1.5px #05060a,
+    0 0 0 2.5px rgba(201, 161, 90, 0.95),
+    0 8px 18px rgba(0, 0, 0, 0.65);
+  transform: translateY(-2px) scale(1.06);
+}
+
+.cst-paint-name {
+  margin: 9px 0 0;
+  font-size: 9px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(244, 241, 234, 0.5);
+  font-variant-numeric: tabular-nums;
+  min-height: 12px;
+}
+
+.cst-rail {
+  position: absolute;
+  z-index: 4;
+  top: 50%;
+  right: clamp(12px, 2.2vw, 26px);
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.cst-chapter {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 5px 0;
+  border: 0;
+  background: none;
+  color: rgba(244, 241, 234, 0.5);
+  font: inherit;
+  cursor: pointer;
+}
+
+.cst-tick {
+  display: block;
+  width: 16px;
+  height: 1px;
+  background: currentColor;
+  transition: width 0.3s ease, background 0.3s ease;
+}
+
+.cst-chapter:hover .cst-tick {
+  width: 28px;
+  background: rgba(201, 161, 90, 0.9);
+}
+
+.cst-chapter-label {
+  order: -1;
+  font-size: 8.5px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateX(6px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  white-space: nowrap;
+}
+
+.cst-chapter:hover .cst-chapter-label {
+  opacity: 1;
+  transform: none;
+}
+
 .cst-loader {
   position: absolute;
   z-index: 5;
@@ -232,6 +355,33 @@
   letter-spacing: 0.32em;
   text-transform: uppercase;
   color: rgba(244, 241, 234, 0.6);
+}
+
+.cst-loader-bar {
+  display: block;
+  height: 1px;
+  width: 100%;
+  overflow: hidden;
+  background: rgba(244, 241, 234, 0.14);
+  position: relative;
+}
+
+.cst-loader-bar::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  width: 40%;
+  background: rgba(244, 241, 234, 0.85);
+  animation: cst-sweep 1.15s ease-in-out infinite;
+}
+
+@keyframes cst-sweep {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(320%);
+  }
 }
 
 .cst-error {
@@ -270,6 +420,103 @@
 
 .cst-space {
   height: 540vh;
+}
+
+@media (max-width: 860px) {
+  .cst-hints {
+    top: auto;
+    bottom: calc(100svh - 96px);
+    left: 16px;
+    transform: none;
+    flex-direction: row;
+    gap: 12px;
+  }
+
+  .cst-chapter-label {
+    display: none;
+  }
+
+  .cst-hud {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    padding-bottom: 18px;
+  }
+
+  .cst-paint {
+    text-align: left;
+  }
+
+  .cst-swatches {
+    justify-content: flex-start;
+  }
+
+  .cst-lede {
+    display: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .cst-meta span:last-child,
+  .cst-dot {
+    display: none;
+  }
+
+  .cst-title {
+    font-size: clamp(2rem, 11vw, 2.8rem);
+  }
+
+  .cst-swatch {
+    width: 20px;
+    height: 20px;
+  }
+
+  .cst-rail {
+    right: 8px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cst-stage,
+  .cst-loader-bar::after {
+    animation: none;
+  }
+}
+
+/* ---- 3D preview ------------------------------------------------------- */
+
+/* The button each house carries in its chapter header. */
+.sc-3d {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border: 1px solid rgba(216, 180, 120, 0.38);
+  border-radius: 999px;
+  padding: 7px 12px;
+  font-size: 9.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #e6cfa6;
+  background: rgba(216, 180, 120, 0.04);
+  transition:
+    background 0.4s ease,
+    border-color 0.4s ease,
+    color 0.4s ease;
+}
+
+.sc-3d:hover {
+  background: rgba(216, 180, 120, 0.16);
+  border-color: rgba(216, 180, 120, 0.75);
+  color: #f9f6f0;
+}
+
+.cst-canvas {
+  cursor: grab;
+  touch-action: pan-y;
+}
+
+.cst-canvas.is-dragging {
+  cursor: grabbing;
 }
 
 .cst-meter {
@@ -314,73 +561,9 @@
   color: rgba(247, 244, 238, 0.55);
 }
 
-/* The 3D button each house carries in its chapter header. */
-.sc-3d {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  border: 1px solid rgba(216, 180, 120, 0.38);
-  border-radius: 999px;
-  padding: 7px 12px;
-  font-size: 9.5px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: #e6cfa6;
-  background: rgba(216, 180, 120, 0.04);
-  transition:
-    background 0.4s ease,
-    border-color 0.4s ease,
-    color 0.4s ease;
-}
-
-.sc-3d:hover {
-  background: rgba(216, 180, 120, 0.16);
-  border-color: rgba(216, 180, 120, 0.75);
-  color: #f9f6f0;
-}
-
-@media (max-width: 860px) {
-  .cst-hints {
-    top: auto;
-    bottom: calc(100svh - 96px);
-    left: 16px;
-    transform: none;
-    flex-direction: row;
-    gap: 12px;
-  }
-
-  .cst-hud {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 14px;
-    padding-bottom: 18px;
-  }
-
-  .cst-lede {
-    display: none;
-  }
-}
-
 @media (max-width: 640px) {
   .cst-meter {
     right: 12px;
     height: 96px;
-  }
-}
-
-@media (max-width: 560px) {
-  .cst-meta span:last-child,
-  .cst-dot {
-    display: none;
-  }
-
-  .cst-title {
-    font-size: clamp(2rem, 11vw, 2.8rem);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .cst-stage {
-    animation: none;
   }
 }

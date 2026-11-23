@@ -200,7 +200,7 @@ export async function createStudio({ canvas, onReady, onError, onProgress }) {
       car.position.x -= centre.x;
       car.position.z -= centre.z;
       car.position.y -= box.min.y;
-      // The model arrives nose-first along -Z; turn it to face +Z so the
+      // The model is delivered nose-first along -Z; turn it to face +Z so the
       // opening shot looks down the bonnet.
       car.rotation.y = Math.PI;
       scene.add(car);

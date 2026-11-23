@@ -240,7 +240,7 @@ function BrowseInfoBar({
                 Add to compare
               </button>
             )}
-            {/* The preview opens over this page, so the back button returns here. */}
+            {/* The 3D room opens over this page, so the back button returns here. */}
             <button
               type="button"
               onClick={openStudio}

@@ -1,6 +1,6 @@
-// A tiny store, so the three places that offer the 3D preview (the showcase
-// hero, every house in the index, and the showroom bar) can open the same
-// full-screen room without any view knowing about another.
+// A tiny store, so the two places that offer the 3D view (the showcase hero and
+// the showroom bar) can open the same full-screen studio without either view
+// having to know about the other.
 
 let open = false;
 const listeners = new Set();
